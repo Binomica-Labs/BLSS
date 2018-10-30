@@ -54,6 +54,7 @@ namespace Binomics_Labs_Software_Suite
         public string rngDNA;
         public string rngRaw;
         public bool generatorThreadComplete;
+        public bool hasHardwareRNG = false;
 
         //shredder stuff
         public int shredderCutPosition;
@@ -135,35 +136,49 @@ namespace Binomics_Labs_Software_Suite
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            try
+            if (checkHardwareRNG.Checked)
             {
-                statusUpdateString = "Generating Random DNA...";
-                desiredRandomDNALength = Convert.ToInt32(txtDNALength.Text);
-                rngPort = new SerialPort(cmbPortsList.Text, sensorBaud);
-                rngPort.DtrEnable = true;
-                rngPort.ReadBufferSize = desiredRandomDNALength;
-                rngPort.ReceivedBytesThreshold = desiredRandomDNALength;
-
-                if (rngPort.IsOpen == false)
+                try
                 {
-                    rngPort.Open();
-                }
+                    statusUpdateString = "Generating Truly Random DNA...";
+                    desiredRandomDNALength = Convert.ToInt32(txtDNALength.Text);
+                    rngPort = new SerialPort(cmbPortsList.Text, sensorBaud);
+                    rngPort.DtrEnable = true;
+                    rngPort.ReadBufferSize = desiredRandomDNALength;
+                    rngPort.ReceivedBytesThreshold = desiredRandomDNALength;
 
-                generateRandomDNA();
+                    if (rngPort.IsOpen == false)
+                    {
+                        rngPort.Open();
+                    }
+
+                    generateHardwareRandomDNA();
+
+                    txtDNA.Text = rngDNA;
+                    txtDNALength.Text = rngDNA.Length.ToString();
+                    visualizeDNA();
+                    computeStats();
+                }
+                catch
+                {
+                    statusUpdateString = "Can't seem to talk to the RNG. Check ports and restart app!";
+                    lblStatusUpdate.Text = statusUpdateString;
+                }
+            }
+            else
+            {
+                statusUpdateString = "Generating Pseudo-Random DNA...";
+                desiredRandomDNALength = Convert.ToInt32(txtDNALength.Text);
+                generateSoftwareRandomDNA();
 
                 txtDNA.Text = rngDNA;
                 txtDNALength.Text = rngDNA.Length.ToString();
                 visualizeDNA();
                 computeStats();
             }
-            catch
-            {
-                statusUpdateString = "Can't seem to talk to the RNG. Check ports and restart app!";
-                lblStatusUpdate.Text = statusUpdateString;
-            }
         }
 
-        private void btnLoad_Click(object sender, EventArgs e)
+        private void btnLoadFile_Click(object sender, EventArgs e)
         {
             Stream myStream = null;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -255,7 +270,7 @@ namespace Binomics_Labs_Software_Suite
             shredThread.Start();
         }
 
-        public void generateRandomDNA()
+        public void generateHardwareRandomDNA()
         {
             try
             {
@@ -352,6 +367,106 @@ namespace Binomics_Labs_Software_Suite
                     lblStatusUpdate.Text = statusUpdateString;
                 });
                 rngPort.Close();
+                MessageBox.Show(e.Message);
+            }
+
+        }
+
+        public void generateSoftwareRandomDNA()
+        {
+            try
+            {
+                statusUpdateString = "Generating Pseudo-Random DNA...";
+                lblStatusUpdate.Invoke((MethodInvoker)delegate
+                {
+
+                    lblStatusUpdate.Text = statusUpdateString;
+                });
+                rngRawNums = new int[desiredRandomDNALength];
+                rngNucleotides = new char[desiredRandomDNALength];
+                bullshitRNG = new Random();
+
+
+                for (int i = 0; i < desiredRandomDNALength; i++)
+                {
+                    statusUpdateString = "Generating Pseudo-Random DNA..." + ((i / desiredRandomDNALength) * 100).ToString();
+                    lblStatusUpdate.Invoke((MethodInvoker)delegate
+                    {
+
+                        lblStatusUpdate.Text = statusUpdateString;
+                    });
+                    rngRawNums[i] = bullshitRNG.Next(0, 255);  //use internal software RNG
+
+                    if (rngRawNums[i] >= 0 && rngRawNums[i] <= 63)
+                    {
+                        rngNucleotides[i] = 'A';
+                    }
+                    else if (rngRawNums[i] >= 64 && rngRawNums[i] <= 127)
+                    {
+                        rngNucleotides[i] = 'T';
+                    }
+                    else if (rngRawNums[i] >= 128 && rngRawNums[i] <= 191)
+                    {
+                        rngNucleotides[i] = 'G';
+                    }
+                    else if (rngRawNums[i] >= 192 && rngRawNums[i] <= 255)
+                    {
+                        rngNucleotides[i] = 'C';
+                    }
+                }
+
+                rngDNA = string.Join("", rngNucleotides);
+                rngRaw = string.Join(" ", rngRawNums);
+                statusUpdateString = "Generation Complete!";
+                lblStatusUpdate.Invoke((MethodInvoker)delegate
+                {
+                    lblStatusUpdate.Text = statusUpdateString;
+                });
+
+                txtDNA.Invoke((MethodInvoker)delegate
+                {
+                    txtDNA.Text = rngDNA;
+                });
+
+                txtRawData.Invoke((MethodInvoker)delegate
+                {
+                    txtRawData.Text = rngRaw;
+                });
+
+                btnShred.Invoke((MethodInvoker)delegate
+                {
+                    btnShred.Enabled = true;
+                });
+
+                btnSave.Invoke((MethodInvoker)delegate
+                {
+                    btnSave.Enabled = true;
+                });
+
+                btnGlue.Invoke((MethodInvoker)delegate
+                {
+                    btnGlue.Enabled = true;
+                });
+
+                txtDNA.Invoke((MethodInvoker)delegate
+                {
+                    txtDNA.Text = rngDNA;
+                });
+
+                txtDNALength.Invoke((MethodInvoker)delegate
+                {
+                    txtDNALength.Text = rngDNA;
+                });
+                generatorThreadComplete = true;
+            }
+
+            catch (Exception e)
+            {
+                statusUpdateString = "Internal Software RNG error...";
+                lblStatusUpdate.Invoke((MethodInvoker)delegate {
+
+                    lblStatusUpdate.Text = statusUpdateString;
+                });
                 MessageBox.Show(e.Message);
             }
 
@@ -1092,6 +1207,69 @@ namespace Binomics_Labs_Software_Suite
         private void txtRawData_Enter(object sender, EventArgs e)
         {
             txtRawData.Text = "";
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkSoftwareRNG_CheckedChanged(object sender, EventArgs e)
+        {
+            checkHardwareRNG.Checked = !checkSoftwareRNG.Checked;
+            if (checkSoftwareRNG.Checked)
+            {
+                hasHardwareRNG = false;
+            }
+        }
+
+        private void checkHardwareRNG_CheckedChanged(object sender, EventArgs e)
+        {
+            checkSoftwareRNG.Checked = !checkHardwareRNG.Checked;
+            if (checkHardwareRNG.Checked)
+            {
+                hasHardwareRNG = true;
+                cmbPortsList.Enabled = true;
+            }
+            else
+            {
+                hasHardwareRNG = false;
+                cmbPortsList.Enabled = false;
+            }
+        }
+
+        private void btnLoadTextbox_Click(object sender, EventArgs e)
+        {
+            statusUpdateString = "Loading DNA from Textbox...";
+            lblStatusUpdate.Text = statusUpdateString;
+            rngDNA = txtDNA.Text;
+
+            if (rngDNA.StartsWith("A") || rngDNA.StartsWith("T") || rngDNA.StartsWith("C") || rngDNA.StartsWith("G"))  //check if input is DNA in all caps
+            {
+                txtDNA.Text = rngDNA;
+                txtDNALength.Text = rngDNA.Length.ToString();
+                desiredRandomDNALength = rngDNA.Length;
+                rngNucleotides = new char[desiredRandomDNALength];
+                rngNucleotides = rngDNA.ToCharArray();
+                visualizeDNA();
+                computeStats();
+                statusUpdateString = "DNA Loaded!";
+                lblStatusUpdate.Text = statusUpdateString;
+                btnShred.Enabled = true;
+                btnSave.Enabled = true;
+                btnGlue.Enabled = true;
+            }
+            else
+            {
+                statusUpdateString = "Check DNA input format. All caps, no craps!";
+                lblStatusUpdate.Text = statusUpdateString;
+            }
+
         }
     }
 }
