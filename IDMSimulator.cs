@@ -128,7 +128,9 @@ namespace Binomics_Labs_Software_Suite
         public static IEnumerable<string> ChunksUpto(string str, int maxChunkSize)
         {
             for (int i = 0; i < str.Length; i += maxChunkSize)
+            {
                 yield return str.Substring(i, Math.Min(maxChunkSize, str.Length - i));
+            }
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -153,7 +155,6 @@ namespace Binomics_Labs_Software_Suite
                 txtDNALength.Text = rngDNA.Length.ToString();
                 visualizeDNA();
                 computeStats();
-                
             }
             catch
             {
@@ -235,12 +236,10 @@ namespace Binomics_Labs_Software_Suite
             fragLengths.Add(txtDNA.Text.Length);
             Thread shredThread = new Thread(shredDNA);
             shredThread.Start();
-
         }
 
         private void btnGlue_Click(object sender, EventArgs e)
-        {   
-
+        {
             ligatedFragments = new List<string>();
             ligatedFragLengths = new List<int>();
             openReadingFramesPassList = new List<string>();
