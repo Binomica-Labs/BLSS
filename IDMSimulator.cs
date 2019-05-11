@@ -46,7 +46,6 @@ namespace Binomics_Labs_Software_Suite
         public double percentRNG = 0.0;
 
         //random generator stuff
-        //public RandomNumberGenerator semiBullshitRNG;  //internal cryptographic software RNG, still kinda shitty
         public Random bullshitRNG;  //internal software RNG of low quality bullshit, for demo purposes only until TrueRNG v3 class for handling 64bit numbers is made
         public int[] rngRawNums;
         public char[] rngNucleotides;
@@ -93,18 +92,10 @@ namespace Binomics_Labs_Software_Suite
         public Color mouseColor;
 
         //misc stuff
-        delegate void SetTextCallback(string text);
         string desktopPath = Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
-        public ToolTip mapPositionToolTip = new ToolTip();
         private SerialPort rngPort = new SerialPort();
         private int sensorBaud = 115200;
         public string statusUpdateString = "Hi, please generate or load DNA sequence.";
-
-
-
-
-
-
 
 
 
@@ -114,6 +105,8 @@ namespace Binomics_Labs_Software_Suite
             panel1.VerticalScroll.Visible = true;
 
         }
+
+
 
         private void IDMsimulator_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -126,6 +119,8 @@ namespace Binomics_Labs_Software_Suite
             }
         }
 
+
+
         public static IEnumerable<string> ChunksUpto(string str, int maxChunkSize)
         {
             for (int i = 0; i < str.Length; i += maxChunkSize)
@@ -133,6 +128,8 @@ namespace Binomics_Labs_Software_Suite
                 yield return str.Substring(i, Math.Min(maxChunkSize, str.Length - i));
             }
         }
+
+
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
@@ -177,6 +174,8 @@ namespace Binomics_Labs_Software_Suite
                 computeStats();
             }
         }
+
+
 
         private void btnLoadFile_Click(object sender, EventArgs e)
         {
@@ -230,6 +229,8 @@ namespace Binomics_Labs_Software_Suite
             }
         }
 
+
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             statusUpdateString = "Saving Entropy Map to image file...";
@@ -238,6 +239,8 @@ namespace Binomics_Labs_Software_Suite
             statusUpdateString = "Entropy Map saved!";
             lblStatusUpdate.Text = statusUpdateString;
         }
+
+
 
         private void btnShred_Click(object sender, EventArgs e)
         {
@@ -252,6 +255,8 @@ namespace Binomics_Labs_Software_Suite
             Thread shredThread = new Thread(shredDNA);
             shredThread.Start();
         }
+
+
 
         private void btnGlue_Click(object sender, EventArgs e)
         {
@@ -269,6 +274,8 @@ namespace Binomics_Labs_Software_Suite
             Thread shredThread = new Thread(glueDNA);
             shredThread.Start();
         }
+
+
 
         public void generateHardwareRandomDNA()
         {
@@ -372,6 +379,8 @@ namespace Binomics_Labs_Software_Suite
 
         }
 
+
+
         public void generateSoftwareRandomDNA()
         {
             try
@@ -472,6 +481,8 @@ namespace Binomics_Labs_Software_Suite
 
         }
 
+
+
         public void computeStats()
         {
             countA = 0;
@@ -531,6 +542,8 @@ namespace Binomics_Labs_Software_Suite
             */
 
         }
+
+
 
         public void visualizeDNA()
         {
@@ -616,6 +629,8 @@ namespace Binomics_Labs_Software_Suite
             colorPosition = 0;
         }
 
+
+
         public void pickNucleotideColor()
         {
             try
@@ -655,6 +670,8 @@ namespace Binomics_Labs_Software_Suite
 
             }
         }
+
+
 
         public void shredDNA()
         {
@@ -729,6 +746,8 @@ namespace Binomics_Labs_Software_Suite
             });
         }
 
+
+
         public void glueDNA()
         {
             statusUpdateString = "Ligating DNA..." + Math.Ceiling((((fragLengths.Average())/500) * 100)).ToString() + "%";
@@ -797,6 +816,8 @@ namespace Binomics_Labs_Software_Suite
 
         }
 
+
+
         public void filterDNA()
         {
             statusUpdateString = "Filtering DNA...";
@@ -834,25 +855,7 @@ namespace Binomics_Labs_Software_Suite
                 }
             }
 
-           /* if (stopCodonPassList.Count > 0)        //check for start codons inside ORF
-            {
-                foreach (string ORF in stopCodonPassList)
-                {
-                    codons = ChunksUpto(ORF, 3).ToArray<string>();
-
-                    bool startDetected = codons.Contains("ATG");
-
-                    if (startDetected)
-                    {
-                        startCodonFailList.Add(ORF);
-                    }
-                    else
-                    {
-                        startCodonPassList.Add(ORF);
-                    }
-                }
-            } */
-
+           
             if (stopCodonPassList.Count > 0) //change to startCodonPassList if you want to screen for METs as well
             {
                 statusUpdateString = "Adding IDM motiffs...";
@@ -902,6 +905,8 @@ namespace Binomics_Labs_Software_Suite
                 lblStatusUpdate.Text = statusUpdateString;
             });
         }
+
+
 
         public string ConvertToProtein(string inputDNA)
         {
@@ -1179,6 +1184,8 @@ namespace Binomics_Labs_Software_Suite
             return cds;
         }
 
+
+
         private void txtDNALength_TextChanged(object sender, EventArgs e)
         {
 
@@ -1188,6 +1195,8 @@ namespace Binomics_Labs_Software_Suite
         {
 
         }
+
+
 
         private void cmbPortsList_DropDown(object sender, EventArgs e)
         {
@@ -1199,26 +1208,21 @@ namespace Binomics_Labs_Software_Suite
             }
         }
 
+
+
         private void txtDNA_Enter(object sender, EventArgs e)
         {
             txtDNA.Text = "";
         }
+
 
         private void txtRawData_Enter(object sender, EventArgs e)
         {
             txtRawData.Text = "";
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
+       
         private void checkSoftwareRNG_CheckedChanged(object sender, EventArgs e)
         {
             checkHardwareRNG.Checked = !checkSoftwareRNG.Checked;
@@ -1227,6 +1231,8 @@ namespace Binomics_Labs_Software_Suite
                 hasHardwareRNG = false;
             }
         }
+
+
 
         private void checkHardwareRNG_CheckedChanged(object sender, EventArgs e)
         {
@@ -1242,6 +1248,8 @@ namespace Binomics_Labs_Software_Suite
                 cmbPortsList.Enabled = false;
             }
         }
+
+
 
         private void btnLoadTextbox_Click(object sender, EventArgs e)
         {
@@ -1271,5 +1279,8 @@ namespace Binomics_Labs_Software_Suite
             }
 
         }
+
+
+
     }
 }

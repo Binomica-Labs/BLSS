@@ -52,11 +52,20 @@
             this.lblFragmentLengthAverage = new System.Windows.Forms.Label();
             this.lblShredderCutPosition = new System.Windows.Forms.Label();
             this.lblStatusUpdate = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picEntropy)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // cmbPortsList
@@ -76,13 +85,14 @@
             this.txtDNA.Name = "txtDNA";
             this.txtDNA.Size = new System.Drawing.Size(444, 206);
             this.txtDNA.TabIndex = 1;
-            this.txtDNA.Text = "\n\n\n\n             Add your DNA sequence here...";
+            this.txtDNA.Text = "\n\n\n\n             add your DNA sequence here...";
             this.txtDNA.Enter += new System.EventHandler(this.txtDNA_Enter);
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -113,7 +123,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Simulation";
             this.tabPage1.UseVisualStyleBackColor = true;
-            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // btnLoadTextbox
             // 
@@ -235,7 +244,6 @@
             this.label2.Size = new System.Drawing.Size(57, 25);
             this.label2.TabIndex = 9;
             this.label2.Text = "Port:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
             // 
@@ -327,6 +335,73 @@
             this.lblStatusUpdate.Text = "Hi, please generate or load DNA sequence.";
             this.lblStatusUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.button3);
+            this.tabPage3.Controls.Add(this.button2);
+            this.tabPage3.Controls.Add(this.button1);
+            this.tabPage3.Controls.Add(this.richTextBox2);
+            this.tabPage3.Controls.Add(this.richTextBox1);
+            this.tabPage3.Controls.Add(this.pictureBox1);
+            this.tabPage3.Location = new System.Drawing.Point(8, 39);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(875, 661);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Alignment";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Black;
+            this.pictureBox1.Location = new System.Drawing.Point(238, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(400, 560);
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(229, 560);
+            this.richTextBox1.TabIndex = 6;
+            this.richTextBox1.Text = "\n\n\n\n             add your DNA sequence here...";
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Location = new System.Drawing.Point(644, 3);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(228, 560);
+            this.richTextBox2.TabIndex = 7;
+            this.richTextBox2.Text = "\n\n\n\n             add your DNA sequence here...";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(3, 569);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(229, 89);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(643, 569);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(229, 89);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(238, 569);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(400, 89);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
             // IDMSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -344,6 +419,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picEntropy)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -375,6 +452,13 @@
         private System.Windows.Forms.CheckBox checkSoftwareRNG;
         private System.Windows.Forms.CheckBox checkHardwareRNG;
         private System.Windows.Forms.Button btnLoadTextbox;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }
 
