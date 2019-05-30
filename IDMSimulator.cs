@@ -97,12 +97,21 @@ namespace Binomics_Labs_Software_Suite
         private int sensorBaud = 115200;
         public string statusUpdateString = "Hi, please generate or load DNA sequence.";
 
+        //abstraction stuff
+        public string[] abstractionData;
+        public int abstractCountA;
+        public int abstractCountT;
+        public int abstractCountC;
+        public int abstractCountG;
+        public string abstractedDNA;
+        public char[] abstractedNucleotides;
 
 
         private void IDMsimulator_Load(object sender, EventArgs e)
         {
             pickNucleotideColor();
             panel1.VerticalScroll.Visible = true;
+            panel2.VerticalScroll.Visible = true;
 
         }
 
@@ -153,7 +162,7 @@ namespace Binomics_Labs_Software_Suite
 
                     txtDNA.Text = rngDNA;
                     txtDNALength.Text = rngDNA.Length.ToString();
-                    visualizeDNA();
+                    visualizeDNA(rngNucleotides);
                     computeStats();
                 }
                 catch
@@ -170,7 +179,7 @@ namespace Binomics_Labs_Software_Suite
 
                 txtDNA.Text = rngDNA;
                 txtDNALength.Text = rngDNA.Length.ToString();
-                visualizeDNA();
+                visualizeDNA(rngNucleotides);
                 computeStats();
             }
         }
@@ -214,7 +223,7 @@ namespace Binomics_Labs_Software_Suite
                 desiredRandomDNALength = rngDNA.Length;
                 rngNucleotides = new char[desiredRandomDNALength];
                 rngNucleotides = rngDNA.ToCharArray();
-                visualizeDNA();
+                visualizeDNA(rngNucleotides);
                 computeStats();
                 statusUpdateString = "DNA Loaded!";
                 lblStatusUpdate.Text = statusUpdateString;
@@ -545,7 +554,7 @@ namespace Binomics_Labs_Software_Suite
 
 
 
-        public void visualizeDNA()
+        public void visualizeDNA(char[] input)
         {
             pickNucleotideColor();
 
@@ -559,34 +568,34 @@ namespace Binomics_Labs_Software_Suite
                 entropyImageHeight = desiredRandomDNALength / picEntropy.Width;
             }
 
-            bmpDNA = new Bitmap(200, entropyImageHeight);
+            bmpDNA = new Bitmap(picEntropy.Width, entropyImageHeight);
 
-            if (desiredRandomDNALength > 200)
+            if (desiredRandomDNALength > picEntropy.Width)
             {
                 for (int y = 0; y < entropyImageHeight; y++)
                 {
-                    for (int x = 0; x < 200; x++)
+                    for (int x = 0; x < picEntropy.Width; x++)
                     {
 
-                        if (rngNucleotides[colorPosition] == 'A')
+                        if (input[colorPosition] == 'A')
                         {
                             bmpDNA.SetPixel(x, y, colorA);
                             colorPosition++;
                         }
 
-                        else if (rngNucleotides[colorPosition] == 'T')
+                        else if (input[colorPosition] == 'T')
                         {
                             bmpDNA.SetPixel(x, y, colorT);
                             colorPosition++;
                         }
 
-                        else if (rngNucleotides[colorPosition] == 'G')
+                        else if (input[colorPosition] == 'G')
                         {
                             bmpDNA.SetPixel(x, y, colorC);
                             colorPosition++;
                         }
 
-                        else if (rngNucleotides[colorPosition] == 'C')
+                        else if (input[colorPosition] == 'C')
                         {
                             bmpDNA.SetPixel(x, y, colorG);
                             colorPosition++;
@@ -598,25 +607,25 @@ namespace Binomics_Labs_Software_Suite
             {
                 for (int i = 0; i < desiredRandomDNALength; i++)
                 {
-                    if (rngNucleotides[colorPosition] == 'A')
+                    if (input[colorPosition] == 'A')
                     {
                         bmpDNA.SetPixel(i, 0, colorA);
                         colorPosition++;
                     }
 
-                    else if (rngNucleotides[colorPosition] == 'T')
+                    else if (input[colorPosition] == 'T')
                     {
                         bmpDNA.SetPixel(i, 0, colorT);
                         colorPosition++;
                     }
 
-                    else if (rngNucleotides[colorPosition] == 'G')
+                    else if (input[colorPosition] == 'G')
                     {
                         bmpDNA.SetPixel(i, 0, colorG);
                         colorPosition++;
                     }
 
-                    else if (rngNucleotides[colorPosition] == 'C')
+                    else if (input[colorPosition] == 'C')
                     {
                         bmpDNA.SetPixel(i, 0, colorC);
                         colorPosition++;
@@ -626,6 +635,8 @@ namespace Binomics_Labs_Software_Suite
 
             picEntropy.SizeMode = PictureBoxSizeMode.AutoSize;
             picEntropy.Image = bmpDNA;
+            picAbstractor.SizeMode = PictureBoxSizeMode.AutoSize;
+            picAbstractor.Image = bmpDNA;
             colorPosition = 0;
         }
 
@@ -1191,6 +1202,8 @@ namespace Binomics_Labs_Software_Suite
 
         }
 
+
+
         private void cmbPortsList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -1212,8 +1225,9 @@ namespace Binomics_Labs_Software_Suite
 
         private void txtDNA_Enter(object sender, EventArgs e)
         {
-            txtDNA.Text = "";
+            //txtDNA.Text = "";
         }
+
 
 
         private void txtRawData_Enter(object sender, EventArgs e)
@@ -1264,7 +1278,7 @@ namespace Binomics_Labs_Software_Suite
                 desiredRandomDNALength = rngDNA.Length;
                 rngNucleotides = new char[desiredRandomDNALength];
                 rngNucleotides = rngDNA.ToCharArray();
-                visualizeDNA();
+                visualizeDNA(rngNucleotides);
                 computeStats();
                 statusUpdateString = "DNA Loaded!";
                 lblStatusUpdate.Text = statusUpdateString;
@@ -1282,5 +1296,115 @@ namespace Binomics_Labs_Software_Suite
 
 
 
+        private void BtnAbstractorVisualize_Click(object sender, EventArgs e)
+        {
+            abstractDNA();
+            visualizeDNA(abstractedNucleotides);
+        }
+
+
+
+        private void BtnAbstractorSave_Click(object sender, EventArgs e)
+        {
+            statusUpdateString = "Saving Abstraction Map to image file...";
+            lblStatusUpdate.Text = statusUpdateString;
+            bmpDNA.Save(desktopPath + "\\Abstraction Map " + DateTime.Now.ToString("MM-dd-yyyy HH.mm.ss") + ".png", System.Drawing.Imaging.ImageFormat.Png);
+            statusUpdateString = "Abstraction Map saved!";
+            lblStatusUpdate.Text = statusUpdateString;
+        }
+
+
+
+        private void BtnAbstractorLoad_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void abstractDNA()
+        {
+            abstractedDNA = "";
+            abstractCountA = 0;
+            abstractCountT = 0;
+            abstractCountC = 0;
+            abstractCountG = 0;
+
+            abstractionData = ChunksUpto(new string(rngNucleotides), trackBarFilterSize.Value).ToArray<string>();
+            foreach (string segment in abstractionData)
+            {
+                abstractCountA = segment.Count(x => x == 'A');
+                abstractCountT = segment.Count(x => x == 'T');
+                abstractCountC = segment.Count(x => x == 'C');
+                abstractCountG = segment.Count(x => x == 'G');
+
+                if (abstractCountA > abstractCountC && 
+                    abstractCountA > abstractCountT && 
+                    abstractCountA > abstractCountG)
+                {
+                    abstractedDNA = abstractedDNA + new string('A', segment.Length);
+                }
+
+                else if (abstractCountC > abstractCountA &&
+                    abstractCountC > abstractCountT &&
+                    abstractCountC > abstractCountG)
+                {
+                    abstractedDNA = abstractedDNA + new string('C', segment.Length);
+                }
+
+                else if (abstractCountT > abstractCountC &&
+                    abstractCountT > abstractCountA &&
+                    abstractCountT > abstractCountG)
+                {
+                    abstractedDNA = abstractedDNA + new string('T', segment.Length);
+                }
+
+                else
+                {
+                    abstractedDNA = abstractedDNA + new string('G', segment.Length);
+                }
+            }
+
+            txtDNA.Text = abstractedDNA;
+            abstractedNucleotides = abstractedDNA.ToCharArray();
+            /*
+             * read loaded DNA
+             * cut DNA into segments equal to window
+             * find average letter of each segment
+             * replace all letters in window with majority letter
+             * concat all window segments into one file
+             * revisualize
+             */
+        }
+
+
+
+        private void TrackBarFilterSize_Scroll(object sender, EventArgs e)
+        {
+            txtAbstractorWindowSize.Text = trackBarFilterSize.Value.ToString();
+            abstractDNA();
+            visualizeDNA(abstractedNucleotides);
+        }
+
+
+
+        private void TxtAbstractorWindowSize_TextChanged(object sender, EventArgs e)
+        {
+            if (txtAbstractorWindowSize.Text != "")
+                if (Convert.ToInt32(txtAbstractorWindowSize.Text) > 19 && Convert.ToInt32(txtAbstractorWindowSize.Text) <= 1000000)
+            {
+                trackBarFilterSize.Value = Convert.ToInt32(txtAbstractorWindowSize.Text);
+                    abstractDNA();
+                    visualizeDNA(abstractedNucleotides);
+                }
+            else
+            {
+                trackBarFilterSize.Value = 20;
+                txtAbstractorWindowSize.Text = "20";
+                    abstractDNA();
+                    visualizeDNA(abstractedNucleotides);
+                }
+
+        }
     }
 }
