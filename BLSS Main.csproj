@@ -37,7 +37,7 @@
     <StartupObject>Binomics_Labs_Software_Suite.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\bino_icon_small.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\bino_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -107,6 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\bino_icon_small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bino_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

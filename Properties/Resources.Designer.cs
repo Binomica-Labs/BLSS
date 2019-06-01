@@ -63,9 +63,9 @@ namespace Binomics_Labs_Software_Suite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon bino_icon_small {
+        internal static System.Drawing.Icon bino_icon {
             get {
-                object obj = ResourceManager.GetObject("bino_icon_small", resourceCulture);
+                object obj = ResourceManager.GetObject("bino_icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
