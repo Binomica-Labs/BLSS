@@ -58,16 +58,17 @@
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lblStatusUpdate = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.picAbstractor = new System.Windows.Forms.PictureBox();
-            this.trackBarFilterSize = new System.Windows.Forms.TrackBar();
-            this.btnAbstractorVisualize = new System.Windows.Forms.Button();
-            this.btnAbstractorSave = new System.Windows.Forms.Button();
-            this.btnAbstractorLoad = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txtAbstractorWindowSize = new System.Windows.Forms.TextBox();
+            this.btnAbstractorLoad = new System.Windows.Forms.Button();
+            this.btnAbstractorSave = new System.Windows.Forms.Button();
+            this.btnAbstractorVisualize = new System.Windows.Forms.Button();
+            this.trackBarFilterSize = new System.Windows.Forms.TrackBar();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.picAbstractor = new System.Windows.Forms.PictureBox();
+            this.lblStatusUpdate = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -76,9 +77,9 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarFilterSize)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAbstractor)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarFilterSize)).BeginInit();
             this.SuspendLayout();
             // 
             // cmbPortsList
@@ -405,19 +406,9 @@
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
-            // lblStatusUpdate
-            // 
-            this.lblStatusUpdate.AutoSize = true;
-            this.lblStatusUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatusUpdate.Location = new System.Drawing.Point(5, 730);
-            this.lblStatusUpdate.Name = "lblStatusUpdate";
-            this.lblStatusUpdate.Size = new System.Drawing.Size(577, 31);
-            this.lblStatusUpdate.TabIndex = 11;
-            this.lblStatusUpdate.Text = "Hi, please generate or load DNA sequence.";
-            this.lblStatusUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.button4);
             this.tabPage4.Controls.Add(this.label3);
             this.tabPage4.Controls.Add(this.txtAbstractorWindowSize);
             this.tabPage4.Controls.Add(this.btnAbstractorLoad);
@@ -431,75 +422,6 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Visual Abstractor";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.AutoScroll = true;
-            this.panel2.Controls.Add(this.picAbstractor);
-            this.panel2.Location = new System.Drawing.Point(99, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(444, 666);
-            this.panel2.TabIndex = 16;
-            // 
-            // picAbstractor
-            // 
-            this.picAbstractor.BackColor = System.Drawing.Color.Black;
-            this.picAbstractor.Location = new System.Drawing.Point(3, 3);
-            this.picAbstractor.Name = "picAbstractor";
-            this.picAbstractor.Size = new System.Drawing.Size(400, 649);
-            this.picAbstractor.TabIndex = 4;
-            this.picAbstractor.TabStop = false;
-            // 
-            // trackBarFilterSize
-            // 
-            this.trackBarFilterSize.LargeChange = 1000;
-            this.trackBarFilterSize.Location = new System.Drawing.Point(3, 3);
-            this.trackBarFilterSize.Maximum = 100000;
-            this.trackBarFilterSize.Minimum = 20;
-            this.trackBarFilterSize.Name = "trackBarFilterSize";
-            this.trackBarFilterSize.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBarFilterSize.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.trackBarFilterSize.Size = new System.Drawing.Size(90, 655);
-            this.trackBarFilterSize.SmallChange = 200;
-            this.trackBarFilterSize.TabIndex = 17;
-            this.trackBarFilterSize.TickFrequency = 1000;
-            this.trackBarFilterSize.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.trackBarFilterSize.Value = 200;
-            this.trackBarFilterSize.Scroll += new System.EventHandler(this.TrackBarFilterSize_Scroll);
-            // 
-            // btnAbstractorVisualize
-            // 
-            this.btnAbstractorVisualize.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAbstractorVisualize.Location = new System.Drawing.Point(549, 249);
-            this.btnAbstractorVisualize.Name = "btnAbstractorVisualize";
-            this.btnAbstractorVisualize.Size = new System.Drawing.Size(323, 100);
-            this.btnAbstractorVisualize.TabIndex = 18;
-            this.btnAbstractorVisualize.Text = "V I S U A L I Z E";
-            this.btnAbstractorVisualize.UseVisualStyleBackColor = true;
-            this.btnAbstractorVisualize.Click += new System.EventHandler(this.BtnAbstractorVisualize_Click);
-            // 
-            // btnAbstractorSave
-            // 
-            this.btnAbstractorSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAbstractorSave.Location = new System.Drawing.Point(549, 355);
-            this.btnAbstractorSave.Name = "btnAbstractorSave";
-            this.btnAbstractorSave.Size = new System.Drawing.Size(323, 100);
-            this.btnAbstractorSave.TabIndex = 19;
-            this.btnAbstractorSave.Text = "S A V E";
-            this.btnAbstractorSave.UseVisualStyleBackColor = true;
-            this.btnAbstractorSave.Click += new System.EventHandler(this.BtnAbstractorSave_Click);
-            // 
-            // btnAbstractorLoad
-            // 
-            this.btnAbstractorLoad.Enabled = false;
-            this.btnAbstractorLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAbstractorLoad.Location = new System.Drawing.Point(549, 143);
-            this.btnAbstractorLoad.Name = "btnAbstractorLoad";
-            this.btnAbstractorLoad.Size = new System.Drawing.Size(323, 100);
-            this.btnAbstractorLoad.TabIndex = 20;
-            this.btnAbstractorLoad.Text = "L O A D";
-            this.btnAbstractorLoad.UseVisualStyleBackColor = true;
-            this.btnAbstractorLoad.Click += new System.EventHandler(this.BtnAbstractorLoad_Click);
             // 
             // label3
             // 
@@ -520,6 +442,97 @@
             this.txtAbstractorWindowSize.TabIndex = 21;
             this.txtAbstractorWindowSize.Text = "200";
             this.txtAbstractorWindowSize.TextChanged += new System.EventHandler(this.TxtAbstractorWindowSize_TextChanged);
+            // 
+            // btnAbstractorLoad
+            // 
+            this.btnAbstractorLoad.Enabled = false;
+            this.btnAbstractorLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAbstractorLoad.Location = new System.Drawing.Point(549, 143);
+            this.btnAbstractorLoad.Name = "btnAbstractorLoad";
+            this.btnAbstractorLoad.Size = new System.Drawing.Size(323, 100);
+            this.btnAbstractorLoad.TabIndex = 20;
+            this.btnAbstractorLoad.Text = "L O A D";
+            this.btnAbstractorLoad.UseVisualStyleBackColor = true;
+            this.btnAbstractorLoad.Click += new System.EventHandler(this.BtnAbstractorLoad_Click);
+            // 
+            // btnAbstractorSave
+            // 
+            this.btnAbstractorSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAbstractorSave.Location = new System.Drawing.Point(549, 355);
+            this.btnAbstractorSave.Name = "btnAbstractorSave";
+            this.btnAbstractorSave.Size = new System.Drawing.Size(323, 100);
+            this.btnAbstractorSave.TabIndex = 19;
+            this.btnAbstractorSave.Text = "S A V E";
+            this.btnAbstractorSave.UseVisualStyleBackColor = true;
+            this.btnAbstractorSave.Click += new System.EventHandler(this.BtnAbstractorSave_Click);
+            // 
+            // btnAbstractorVisualize
+            // 
+            this.btnAbstractorVisualize.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAbstractorVisualize.Location = new System.Drawing.Point(549, 249);
+            this.btnAbstractorVisualize.Name = "btnAbstractorVisualize";
+            this.btnAbstractorVisualize.Size = new System.Drawing.Size(323, 100);
+            this.btnAbstractorVisualize.TabIndex = 18;
+            this.btnAbstractorVisualize.Text = "V I S U A L I Z E";
+            this.btnAbstractorVisualize.UseVisualStyleBackColor = true;
+            this.btnAbstractorVisualize.Click += new System.EventHandler(this.BtnAbstractorVisualize_Click);
+            // 
+            // trackBarFilterSize
+            // 
+            this.trackBarFilterSize.LargeChange = 1000;
+            this.trackBarFilterSize.Location = new System.Drawing.Point(3, 3);
+            this.trackBarFilterSize.Maximum = 10000;
+            this.trackBarFilterSize.Minimum = 20;
+            this.trackBarFilterSize.Name = "trackBarFilterSize";
+            this.trackBarFilterSize.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBarFilterSize.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.trackBarFilterSize.Size = new System.Drawing.Size(90, 655);
+            this.trackBarFilterSize.SmallChange = 200;
+            this.trackBarFilterSize.TabIndex = 17;
+            this.trackBarFilterSize.TickFrequency = 200;
+            this.trackBarFilterSize.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBarFilterSize.Value = 200;
+            this.trackBarFilterSize.Scroll += new System.EventHandler(this.TrackBarFilterSize_Scroll);
+            // 
+            // panel2
+            // 
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.picAbstractor);
+            this.panel2.Location = new System.Drawing.Point(99, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(444, 666);
+            this.panel2.TabIndex = 16;
+            // 
+            // picAbstractor
+            // 
+            this.picAbstractor.BackColor = System.Drawing.Color.Black;
+            this.picAbstractor.Location = new System.Drawing.Point(3, 3);
+            this.picAbstractor.Name = "picAbstractor";
+            this.picAbstractor.Size = new System.Drawing.Size(400, 649);
+            this.picAbstractor.TabIndex = 4;
+            this.picAbstractor.TabStop = false;
+            // 
+            // lblStatusUpdate
+            // 
+            this.lblStatusUpdate.AutoSize = true;
+            this.lblStatusUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatusUpdate.Location = new System.Drawing.Point(5, 730);
+            this.lblStatusUpdate.Name = "lblStatusUpdate";
+            this.lblStatusUpdate.Size = new System.Drawing.Size(577, 31);
+            this.lblStatusUpdate.TabIndex = 11;
+            this.lblStatusUpdate.Text = "Hi, please generate or load DNA sequence.";
+            this.lblStatusUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(549, 461);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(323, 100);
+            this.button4.TabIndex = 23;
+            this.button4.Text = "M A K E   L A D D E R";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
             // IDMSimulator
             // 
@@ -542,9 +555,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarFilterSize)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picAbstractor)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarFilterSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -592,6 +605,7 @@
         private System.Windows.Forms.TrackBar trackBarFilterSize;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox picAbstractor;
+        private System.Windows.Forms.Button button4;
     }
 }
 

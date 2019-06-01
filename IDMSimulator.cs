@@ -13,6 +13,7 @@ using System.Threading;
 
 namespace Binomics_Labs_Software_Suite
 {
+
     public partial class IDMSimulator : Form
     {
         public IDMSimulator()
@@ -66,7 +67,7 @@ namespace Binomics_Labs_Software_Suite
         public int shredderFragmentCount;
         public int shredderFragmentLengthAverage;
         public long shredderTotalBases;
-
+        
         //glue stuff
         public List<string> ligatedFragments = new List<string>();
         public List<int> ligatedFragLengths = new List<int>();
@@ -106,6 +107,11 @@ namespace Binomics_Labs_Software_Suite
         public string abstractedDNA;
         public char[] abstractedNucleotides;
 
+        //DNA Ladder Stuff
+        public int ladderLength;
+        public string ladderFile;
+        public string[] rungArray;
+            
 
         private void IDMsimulator_Load(object sender, EventArgs e)
         {
@@ -591,13 +597,13 @@ namespace Binomics_Labs_Software_Suite
 
                         else if (input[colorPosition] == 'G')
                         {
-                            bmpDNA.SetPixel(x, y, colorC);
+                            bmpDNA.SetPixel(x, y, colorG);
                             colorPosition++;
                         }
 
                         else if (input[colorPosition] == 'C')
                         {
-                            bmpDNA.SetPixel(x, y, colorG);
+                            bmpDNA.SetPixel(x, y, colorC);
                             colorPosition++;
                         }
                     }
@@ -646,10 +652,10 @@ namespace Binomics_Labs_Software_Suite
         {
             try
             {
-                colorA = Color.FromArgb(0, 230, 255);
-                colorT = Color.FromArgb(255, 255, 0);
-                colorC = Color.FromArgb(220, 0, 0);
-                colorG = Color.FromArgb(0, 0, 0);
+                colorA = Color.FromArgb(0, 230, 255); //cyan
+                colorT = Color.FromArgb(255, 255, 0); //yellow
+                colorC = Color.FromArgb(220, 0, 0); //red
+                colorG = Color.FromArgb(0, 0, 0); //black
 
                 /*
                 colorA = Color.FromArgb(Convert.ToInt16(txtColorAred.Text),
@@ -1346,15 +1352,15 @@ namespace Binomics_Labs_Software_Suite
                 }
 
                 else if (abstractCountC > abstractCountA &&
-                    abstractCountC > abstractCountT &&
-                    abstractCountC > abstractCountG)
+                         abstractCountC > abstractCountT &&
+                         abstractCountC > abstractCountG)
                 {
                     abstractedDNA = abstractedDNA + new string('C', segment.Length);
                 }
 
                 else if (abstractCountT > abstractCountC &&
-                    abstractCountT > abstractCountA &&
-                    abstractCountT > abstractCountG)
+                         abstractCountT > abstractCountA &&
+                         abstractCountT > abstractCountG)
                 {
                     abstractedDNA = abstractedDNA + new string('T', segment.Length);
                 }
@@ -1405,6 +1411,54 @@ namespace Binomics_Labs_Software_Suite
                     visualizeDNA(abstractedNucleotides);
                 }
 
+        }
+
+
+
+        public void generateLadderDNA()
+        {
+            ladderLength = desiredRandomDNALength.Round(1000)/400;
+            int ladderRung = ladderLength / 10;
+            rungArray = new string[ladderLength];
+
+            rungArray[0] = String.Join("", new string('T', 100), new string('G', 300));
+            rungArray[1] = String.Join("", new string('T', 100), new string('G', 300));
+            rungArray[2] = String.Join("", new string('T', 100), new string('G', 300));
+
+            for (int y = 3; y < ladderLength; y++)
+            {
+                rungArray[y] = String.Join("", new string('T', 5), new string('G', 395));
+            }
+
+            for (int y = (10000/400); y <= ladderLength-1; y+=(10000/400))
+            {
+                rungArray[y-1] = String.Join("", new string('T', 100), new string('G', 300));
+                rungArray[y] = String.Join("", new string('T', 100), new string('G', 300));
+                rungArray[y+1] = String.Join("", new string('T', 100), new string('G', 300));
+            }
+
+
+            rungArray[ladderLength - 3] = String.Join("", new string('T', 100), new string('G', 300));
+            rungArray[ladderLength - 2] = String.Join("", new string('T', 100), new string('G', 300));
+            rungArray[ladderLength-1] = String.Join("", new string('T', 100), new string('G', 300));
+            txtDNA.Text = String.Join("", rungArray);
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            generateLadderDNA();
+        }
+    }
+
+
+    public static class MathExtensions
+    {
+        public static int Round(this int i, int nearest)
+        {
+            if (nearest <= 0 || nearest % 10 != 0)
+                throw new ArgumentOutOfRangeException("nearest", "Must round to a positive multiple of 10");
+
+            return (i + 5 * nearest / 10) / nearest * nearest;
         }
     }
 }
