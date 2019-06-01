@@ -1,6 +1,6 @@
 # Binomics Labs Software Suite
 
-A suite of software for use in biological exploration. Open source, of course! The suite is coded in C# using the Visual Studio Community Edition IDE and intended to be used on Windows. Feel free to fork to your heart's content and please pardon the paltry coding practices...they will get better with time! 
+Pronounced "bliss", this bit of code is a suite of software for use in biological exploration. It contains modules for conventional DNA analysis as well as some quirky ways of visualizing your results. From probing the theoretical limits of evolutionary systems to robotic control systems, this collection of tools is an evergrowing body of computational knowledge and technique designed to help researchers both formal and amateur. The suite is coded in C# using the Visual Studio Community Edition IDE and is intended to be used on Windows-based machines BUT we will shortly transition to the Lua language (Love2D) for portability and aesthetic reasons. There is no reason for science tools to be furrow-browed. A bit of chip-tunes and 2D magic is on the horizon. Feel free to fork to your heart's content and please pardon the paltry coding practices...they will get better with time! 
 
 
 
