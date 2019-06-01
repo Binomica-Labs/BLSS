@@ -52,6 +52,12 @@
     <Compile Include="CodonBiasAnalyzer.Designer.cs">
       <DependentUpon>CodonBiasAnalyzer.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="InfiniteDiscoveryMachineSimulator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CodonBiasAnalyzer.resx">
       <DependentUpon>CodonBiasAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InfiniteDiscoveryMachineSimulator.resx">
       <DependentUpon>InfiniteDiscoveryMachineSimulator.cs</DependentUpon>
