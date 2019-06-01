@@ -46,16 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDMSimulator.cs">
+    <Compile Include="CodonBiasAnalyzer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IDMSimulator.Designer.cs">
-      <DependentUpon>IDMSimulator.cs</DependentUpon>
+    <Compile Include="CodonBiasAnalyzer.Designer.cs">
+      <DependentUpon>CodonBiasAnalyzer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InfiniteDiscoveryMachineSimulator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InfiniteDiscoveryMachineSimulator.Designer.cs">
+      <DependentUpon>InfiniteDiscoveryMachineSimulator.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="IDMSimulator.resx">
-      <DependentUpon>IDMSimulator.cs</DependentUpon>
+    <EmbeddedResource Include="CodonBiasAnalyzer.resx">
+      <DependentUpon>CodonBiasAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfiniteDiscoveryMachineSimulator.resx">
+      <DependentUpon>InfiniteDiscoveryMachineSimulator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

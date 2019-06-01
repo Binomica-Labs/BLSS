@@ -16,7 +16,7 @@ namespace Binomics_Labs_Software_Suite
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new IDMSimulator());
+            Application.Run(new InfiniteDiscoveryMachineSimulator());
         }
     }
 }

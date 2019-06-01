@@ -14,9 +14,9 @@ using System.Threading;
 namespace Binomics_Labs_Software_Suite
 {
 
-    public partial class IDMSimulator : Form
+    public partial class InfiniteDiscoveryMachineSimulator : Form
     {
-        public IDMSimulator()
+        public InfiniteDiscoveryMachineSimulator()
         {
             InitializeComponent();
 

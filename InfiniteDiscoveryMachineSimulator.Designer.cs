@@ -1,6 +1,6 @@
 ﻿namespace Binomics_Labs_Software_Suite
 {
-    partial class IDMSimulator
+    partial class InfiniteDiscoveryMachineSimulator
     {
         /// <summary>
         /// Required designer variable.
