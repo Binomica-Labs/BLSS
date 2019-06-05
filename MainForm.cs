@@ -53,5 +53,21 @@ namespace Binomics_Labs_Software_Suite
         {
             this.WindowState = FormWindowState.Normal;
         }
+
+        private void BtnGenbankParser_Click(object sender, EventArgs e)
+        {
+            GenbankParser GBP = new GenbankParser();
+            this.WindowState = FormWindowState.Minimized;
+            GBP.Show();
+            GBP.Activate();
+            GBP.FormClosed += new FormClosedEventHandler(GBP_FormClosed);
+        }
+
+
+
+        void GBP_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+        }
     }
 }

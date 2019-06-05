@@ -189,13 +189,6 @@ namespace Binomics_Labs_Software_Suite
 
 
 
-        private void PicReference_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-
         private void CodonGUI_Load(object sender, EventArgs e)
         {
             DirectoryInfo d = new DirectoryInfo(desktopPath + "\\Codon Usage Tables");
@@ -2484,6 +2477,13 @@ namespace Binomics_Labs_Software_Suite
                 lblDominantY.Text = "TAC";
                 dominantCodonArray[19] = "TAC";
             }
+        }
+
+
+
+        public void ParseGenbankFile()
+        {
+
         }
     }
 }

@@ -74,6 +74,12 @@
     <Compile Include="CodonBiasAnalyzer.Designer.cs">
       <DependentUpon>CodonBiasAnalyzer.cs</DependentUpon>
     </Compile>
+    <Compile Include="GenbankParser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenbankParser.Designer.cs">
+      <DependentUpon>GenbankParser.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CodonBiasAnalyzer.resx">
       <DependentUpon>CodonBiasAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenbankParser.resx">
+      <DependentUpon>GenbankParser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

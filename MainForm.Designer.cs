@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.btnIDM = new System.Windows.Forms.Button();
             this.btnCodonBiasAnalyzer = new System.Windows.Forms.Button();
-            this.btnDNAVisualizationAbstractor = new System.Windows.Forms.Button();
+            this.btnGenbankParser = new System.Windows.Forms.Button();
             this.btnBacterialMiniSpecController = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
@@ -57,14 +57,15 @@
             this.btnCodonBiasAnalyzer.UseVisualStyleBackColor = true;
             this.btnCodonBiasAnalyzer.Click += new System.EventHandler(this.BtnCodonBiasAnalyzer_Click);
             // 
-            // btnDNAVisualizationAbstractor
+            // btnGenbankParser
             // 
-            this.btnDNAVisualizationAbstractor.Location = new System.Drawing.Point(12, 294);
-            this.btnDNAVisualizationAbstractor.Name = "btnDNAVisualizationAbstractor";
-            this.btnDNAVisualizationAbstractor.Size = new System.Drawing.Size(552, 88);
-            this.btnDNAVisualizationAbstractor.TabIndex = 4;
-            this.btnDNAVisualizationAbstractor.Text = "DNA Visualization Abstractor";
-            this.btnDNAVisualizationAbstractor.UseVisualStyleBackColor = true;
+            this.btnGenbankParser.Location = new System.Drawing.Point(12, 294);
+            this.btnGenbankParser.Name = "btnGenbankParser";
+            this.btnGenbankParser.Size = new System.Drawing.Size(552, 88);
+            this.btnGenbankParser.TabIndex = 4;
+            this.btnGenbankParser.Text = "Genbank Parser";
+            this.btnGenbankParser.UseVisualStyleBackColor = true;
+            this.btnGenbankParser.Click += new System.EventHandler(this.BtnGenbankParser_Click);
             // 
             // btnBacterialMiniSpecController
             // 
@@ -101,7 +102,7 @@
             this.ClientSize = new System.Drawing.Size(576, 489);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.btnDNAVisualizationAbstractor);
+            this.Controls.Add(this.btnGenbankParser);
             this.Controls.Add(this.btnBacterialMiniSpecController);
             this.Controls.Add(this.btnCodonBiasAnalyzer);
             this.Controls.Add(this.btnIDM);
@@ -119,7 +120,7 @@
 
         private System.Windows.Forms.Button btnIDM;
         private System.Windows.Forms.Button btnCodonBiasAnalyzer;
-        private System.Windows.Forms.Button btnDNAVisualizationAbstractor;
+        private System.Windows.Forms.Button btnGenbankParser;
         private System.Windows.Forms.Button btnBacterialMiniSpecController;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnExit;

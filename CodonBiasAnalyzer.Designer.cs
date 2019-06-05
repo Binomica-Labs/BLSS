@@ -2909,7 +2909,6 @@
             this.picReference.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picReference.TabIndex = 4;
             this.picReference.TabStop = false;
-            this.picReference.Paint += new System.Windows.Forms.PaintEventHandler(this.PicReference_Paint);
             // 
             // txtConsoleOutput
             // 

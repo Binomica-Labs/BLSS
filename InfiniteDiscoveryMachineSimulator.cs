@@ -96,7 +96,6 @@ namespace Binomics_Labs_Software_Suite
         string desktopPath = Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
         private SerialPort rngPort = new SerialPort();
         private int sensorBaud = 115200;
-        public string statusUpdateString = "Hi, please generate or load DNA sequence.";
 
         //abstraction stuff
         public string[] abstractionData;
@@ -111,7 +110,19 @@ namespace Binomics_Labs_Software_Suite
         public int ladderLength;
         public string ladderFile;
         public string[] rungArray;
-            
+
+        //Batch Abstractor Stuff
+        public Image visualAbstraction1;
+        public Image visualAbstraction20;
+        public Image visualAbstraction40;
+        public Image visualAbstraction80;
+        public Image visualAbstraction100;
+        public Image visualAbstraction200;
+        public Image visualAbstraction400;
+        public string batchFolderPath;
+        public List<String> batchAbstractorFiles = new List<string>();
+
+
 
         private void IDMsimulator_Load(object sender, EventArgs e)
         {
@@ -152,7 +163,7 @@ namespace Binomics_Labs_Software_Suite
             {
                 try
                 {
-                    statusUpdateString = "Generating Truly Random DNA...";
+                    UpdateStatusBar("Generating Truly Random DNA...");
                     desiredRandomDNALength = Convert.ToInt32(txtDNALength.Text);
                     rngPort = new SerialPort(cmbPortsList.Text, sensorBaud);
                     rngPort.DtrEnable = true;
@@ -173,13 +184,13 @@ namespace Binomics_Labs_Software_Suite
                 }
                 catch
                 {
-                    statusUpdateString = "Can't seem to talk to the RNG. Check ports and restart app!";
-                    lblStatusUpdate.Text = statusUpdateString;
+                    UpdateStatusBar("Can't seem to talk to the RNG. Check ports and restart app!");
+                    
                 }
             }
             else
             {
-                statusUpdateString = "Generating Pseudo-Random DNA...";
+                UpdateStatusBar("Generating Pseudo-Random DNA...");
                 desiredRandomDNALength = Convert.ToInt32(txtDNALength.Text);
                 generateSoftwareRandomDNA();
 
@@ -231,16 +242,16 @@ namespace Binomics_Labs_Software_Suite
                 rngNucleotides = rngDNA.ToCharArray();
                 visualizeDNA(rngNucleotides);
                 computeStats();
-                statusUpdateString = "DNA Loaded!";
-                lblStatusUpdate.Text = statusUpdateString;
+                UpdateStatusBar("DNA Loaded!");
+                
                 btnShred.Enabled = true;
                 btnSave.Enabled = true;
                 btnGlue.Enabled = true;
             }
             else
             {
-                statusUpdateString = "Check DNA input format. All caps, no craps!";
-                lblStatusUpdate.Text = statusUpdateString;
+                UpdateStatusBar("Check DNA input format. All caps, no craps!");
+                
             }
         }
 
@@ -248,11 +259,11 @@ namespace Binomics_Labs_Software_Suite
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            statusUpdateString = "Saving Entropy Map to image file...";
-            lblStatusUpdate.Text = statusUpdateString;
+            UpdateStatusBar("Saving Entropy Map to image file...");
+            
             bmpDNA.Save(desktopPath + "\\EntropyGraph " + DateTime.Now.ToString("MM-dd-yyyy HH.mm.ss") + ".png", System.Drawing.Imaging.ImageFormat.Png);
-            statusUpdateString = "Entropy Map saved!";
-            lblStatusUpdate.Text = statusUpdateString;
+            UpdateStatusBar("Entropy Map saved!");
+            
         }
 
 
@@ -296,12 +307,7 @@ namespace Binomics_Labs_Software_Suite
         {
             try
             {
-                statusUpdateString = "Generating Random DNA...";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate
-                {
-
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Generating Random DNA...");
                 rngRawNums = new int[desiredRandomDNALength];
                 rngNucleotides = new char[desiredRandomDNALength];
 
@@ -309,12 +315,7 @@ namespace Binomics_Labs_Software_Suite
 
                 for (int i = 0; i < desiredRandomDNALength; i++)
                 {
-                    statusUpdateString = "Generating Random DNA..." + ((i / desiredRandomDNALength) * 100).ToString();
-                    lblStatusUpdate.Invoke((MethodInvoker)delegate
-                    {
-
-                        lblStatusUpdate.Text = statusUpdateString;
-                    });
+                    UpdateStatusBar("Generating Random DNA..." + ((i / desiredRandomDNALength) * 100).ToString());
                     rngRawNums[i] = rngPort.ReadByte();
 
                     if (rngRawNums[i] >= 0 && rngRawNums[i] <= 63)
@@ -338,11 +339,7 @@ namespace Binomics_Labs_Software_Suite
                 rngDNA = string.Join("", rngNucleotides);
                 rngRaw = string.Join(" ", rngRawNums);
                 rngPort.Close();
-                statusUpdateString = "Generation Complete!";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate
-                {
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Generation Complete!");
 
                 txtDNA.Invoke((MethodInvoker)delegate
                 {
@@ -383,11 +380,7 @@ namespace Binomics_Labs_Software_Suite
 
             catch (Exception e)
             {
-                statusUpdateString = "Generation Error. Check RNG connection...";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Generation Error. Check RNG connection...");
                 rngPort.Close();
                 MessageBox.Show(e.Message);
             }
@@ -400,12 +393,7 @@ namespace Binomics_Labs_Software_Suite
         {
             try
             {
-                statusUpdateString = "Generating Pseudo-Random DNA...";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate
-                {
-
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Generating Pseudo-Random DNA...");
                 rngRawNums = new int[desiredRandomDNALength];
                 rngNucleotides = new char[desiredRandomDNALength];
                 bullshitRNG = new Random();
@@ -413,12 +401,7 @@ namespace Binomics_Labs_Software_Suite
 
                 for (int i = 0; i < desiredRandomDNALength; i++)
                 {
-                    statusUpdateString = "Generating Pseudo-Random DNA..." + ((i / desiredRandomDNALength) * 100).ToString();
-                    lblStatusUpdate.Invoke((MethodInvoker)delegate
-                    {
-
-                        lblStatusUpdate.Text = statusUpdateString;
-                    });
+                    UpdateStatusBar("Generating Pseudo-Random DNA..." + ((i / desiredRandomDNALength) * 100).ToString());
                     rngRawNums[i] = bullshitRNG.Next(0, 255);  //use internal software RNG
 
                     if (rngRawNums[i] >= 0 && rngRawNums[i] <= 63)
@@ -441,11 +424,7 @@ namespace Binomics_Labs_Software_Suite
 
                 rngDNA = string.Join("", rngNucleotides);
                 rngRaw = string.Join(" ", rngRawNums);
-                statusUpdateString = "Generation Complete!";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate
-                {
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Generation Complete!");
 
                 txtDNA.Invoke((MethodInvoker)delegate
                 {
@@ -486,11 +465,7 @@ namespace Binomics_Labs_Software_Suite
 
             catch (Exception e)
             {
-                statusUpdateString = "Internal Software RNG error...";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Internal Software RNG error...");
                 MessageBox.Show(e.Message);
             }
 
@@ -547,20 +522,11 @@ namespace Binomics_Labs_Software_Suite
             percentT = Math.Truncate((countT / Convert.ToDouble(rngNucleotides.Length)) * 100);
             percentC = Math.Truncate((countC / Convert.ToDouble(rngNucleotides.Length)) * 100);
             percentG = Math.Truncate((countG / Convert.ToDouble(rngNucleotides.Length)) * 100);
-
-            /*
-            lblPercentA.Text = percentA.ToString();
-            lblPercentT.Text = percentT.ToString();
-            lblPercentC.Text = percentC.ToString();
-            lblPercentG.Text = percentG.ToString();
-            lblAverageRNGValue.Text = avgRNG.ToString();
-            */
-
         }
 
 
 
-        public void visualizeDNA(char[] input)
+        public Image visualizeDNA(char[] input)
         {
             pickNucleotideColor();
 
@@ -644,6 +610,7 @@ namespace Binomics_Labs_Software_Suite
             picAbstractor.SizeMode = PictureBoxSizeMode.AutoSize;
             picAbstractor.Image = bmpDNA;
             colorPosition = 0;
+            return bmpDNA;
         }
 
 
@@ -692,21 +659,13 @@ namespace Binomics_Labs_Software_Suite
 
         public void shredDNA()
         {
-            statusUpdateString = "Shredding DNA...";
-            lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                lblStatusUpdate.Text = statusUpdateString;
-            });
+            UpdateStatusBar("Shredding DNA...");
             string currentFragment;
             bullshitRNG = new Random();
 
             while (fragLengths.Average() > 4)
             {
-                statusUpdateString = "Shredding DNA..." + Math.Ceiling(((4.00/(fragLengths.Average()))*100)).ToString()+"%";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Shredding DNA..." + Math.Ceiling(((4.00/(fragLengths.Average()))*100)).ToString()+"%");
                 fragmentChoice = bullshitRNG.Next(0, fragments.Count);
 
                 if (fragments[fragmentChoice].Length > 4)
@@ -736,11 +695,7 @@ namespace Binomics_Labs_Software_Suite
                 }
             }
 
-            statusUpdateString = "Writing Shreds to file...";
-            lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                lblStatusUpdate.Text = statusUpdateString;
-            });
+            UpdateStatusBar("Writing Shreds to file...");
             using (var countFile = File.CreateText(desktopPath + "\\Fragmentation Length Data" + DateTime.Now.ToBinary().ToString() + ".csv"))
             {
                 foreach (int fragLength in fragLengths)
@@ -756,32 +711,20 @@ namespace Binomics_Labs_Software_Suite
                     fragFile.WriteLine(string.Join(",", fragment));
                 }
             }
-            statusUpdateString = "Shredding Complete!";
-            lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                lblStatusUpdate.Text = statusUpdateString;
-            });
+            UpdateStatusBar("Shredding Complete!");
         }
 
 
 
         public void glueDNA()
         {
-            statusUpdateString = "Ligating DNA..." + Math.Ceiling((((fragLengths.Average())/500) * 100)).ToString() + "%";
-            lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                lblStatusUpdate.Text = statusUpdateString;
-            });
+            UpdateStatusBar("Ligating DNA..." + Math.Ceiling((((fragLengths.Average())/500) * 100)).ToString() + "%");
             ligatedFragments = fragments;
             ligatedFragLengths = fragLengths;
 
             while (shredderFragmentLengthAverage < 2000)
             {
-                statusUpdateString = "Ligating DNA..." + Math.Ceiling((((fragLengths.Average()) / 500) * 100)).ToString() + "%";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Ligating DNA..." + Math.Ceiling((((fragLengths.Average()) / 500) * 100)).ToString() + "%");
                 int firstFragmentChoice = bullshitRNG.Next(0, fragments.Count);
                 string firstFragment = fragments[firstFragmentChoice];
 
@@ -804,11 +747,7 @@ namespace Binomics_Labs_Software_Suite
                     shredderTotalBases = (long)ligatedFragLengths.Sum();
                 }
             }
-            statusUpdateString = "Writing ligations to file...";
-            lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                lblStatusUpdate.Text = statusUpdateString;
-            });
+            UpdateStatusBar("Writing ligations to file...");
             using (var ligLengthFile = File.CreateText(desktopPath + "\\Ligation Length Data" + DateTime.Now.ToBinary().ToString() + ".csv"))
             {
                 foreach (int fragLength in fragLengths)
@@ -824,11 +763,7 @@ namespace Binomics_Labs_Software_Suite
                     ligPoolFile.WriteLine(string.Join(",", fragment));
                 }
             }
-            statusUpdateString = "Ligations Complete!";
-            lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                lblStatusUpdate.Text = statusUpdateString;
-            });
+            UpdateStatusBar("Ligations Complete!");
             filterDNA();
 
         }
@@ -837,11 +772,7 @@ namespace Binomics_Labs_Software_Suite
 
         public void filterDNA()
         {
-            statusUpdateString = "Filtering DNA...";
-            lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                lblStatusUpdate.Text = statusUpdateString;
-            });
+            UpdateStatusBar("Filtering DNA...");
             foreach (string fragment in fragments)
             {
                 if (fragment.Length % 3 == 0)
@@ -875,11 +806,7 @@ namespace Binomics_Labs_Software_Suite
            
             if (stopCodonPassList.Count > 0) //change to startCodonPassList if you want to screen for METs as well
             {
-                statusUpdateString = "Adding IDM motiffs...";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Adding IDM motiffs...");
                 foreach (string ORF in stopCodonPassList)
                 {
                     string polishedFragment = "ATG" + ORF + "CATCACCATCACCATCACTTATAATAA";
@@ -898,11 +825,7 @@ namespace Binomics_Labs_Software_Suite
 
             if (finalDNAList.Count > 0)
             {
-                statusUpdateString = "Writing proteins to file...";
-                lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                    lblStatusUpdate.Text = statusUpdateString;
-                });
+                UpdateStatusBar("Writing proteins to file...");
                 foreach (string CDS in finalDNAList)
                 {
                     finalProteinList.Add(ConvertToProtein(CDS));
@@ -916,11 +839,7 @@ namespace Binomics_Labs_Software_Suite
                     }
                 }
             }
-            statusUpdateString = "Filtration Complete!";
-            lblStatusUpdate.Invoke((MethodInvoker)delegate {
-
-                lblStatusUpdate.Text = statusUpdateString;
-            });
+            UpdateStatusBar("Filtration Complete!");
         }
 
 
@@ -1231,7 +1150,7 @@ namespace Binomics_Labs_Software_Suite
 
         private void txtDNA_Enter(object sender, EventArgs e)
         {
-            //txtDNA.Text = "";
+            txtDNA.Text = "";
         }
 
 
@@ -1273,9 +1192,25 @@ namespace Binomics_Labs_Software_Suite
 
         private void btnLoadTextbox_Click(object sender, EventArgs e)
         {
-            statusUpdateString = "Loading DNA from Textbox...";
-            lblStatusUpdate.Text = statusUpdateString;
+            UpdateStatusBar("Loading DNA from Textbox...");
+            
             rngDNA = txtDNA.Text;
+            rngDNA = rngDNA.Trim(new char[] { '\r', '\n', ' ' }); //REMOVE ALL NONSPECIFIC NOTATIONS
+            rngDNA = rngDNA.Replace("@", "");
+            rngDNA = rngDNA.Replace("N", "");
+            rngDNA = rngDNA.Replace("U", "");
+            rngDNA = rngDNA.Replace("W", "");
+            rngDNA = rngDNA.Replace("S", "");
+            rngDNA = rngDNA.Replace("M", "");
+            rngDNA = rngDNA.Replace("K", "");
+            rngDNA = rngDNA.Replace("R", "");
+            rngDNA = rngDNA.Replace("Y", "");
+            rngDNA = rngDNA.Replace("B", "");
+            rngDNA = rngDNA.Replace("D", "");
+            rngDNA = rngDNA.Replace("H", "");
+            rngDNA = rngDNA.Replace("V", "");
+            rngDNA = rngDNA.Replace("Z", "");
+
 
             if (rngDNA.StartsWith("A") || rngDNA.StartsWith("T") || rngDNA.StartsWith("C") || rngDNA.StartsWith("G"))  //check if input is DNA in all caps
             {
@@ -1286,16 +1221,16 @@ namespace Binomics_Labs_Software_Suite
                 rngNucleotides = rngDNA.ToCharArray();
                 visualizeDNA(rngNucleotides);
                 computeStats();
-                statusUpdateString = "DNA Loaded!";
-                lblStatusUpdate.Text = statusUpdateString;
+                UpdateStatusBar("DNA Loaded!");
+                
                 btnShred.Enabled = true;
                 btnSave.Enabled = true;
                 btnGlue.Enabled = true;
             }
             else
             {
-                statusUpdateString = "Check DNA input format. All caps, no craps!";
-                lblStatusUpdate.Text = statusUpdateString;
+                UpdateStatusBar("Check DNA input format. All caps, no craps!");
+                
             }
 
         }
@@ -1304,19 +1239,19 @@ namespace Binomics_Labs_Software_Suite
 
         private void BtnAbstractorVisualize_Click(object sender, EventArgs e)
         {
-            abstractDNA();
-            visualizeDNA(abstractedNucleotides);
+            picAbstractor.SizeMode = PictureBoxSizeMode.StretchImage;
+            picAbstractor.Image = MultiVisualize();
         }
 
 
 
         private void BtnAbstractorSave_Click(object sender, EventArgs e)
         {
-            statusUpdateString = "Saving Abstraction Map to image file...";
-            lblStatusUpdate.Text = statusUpdateString;
-            bmpDNA.Save(desktopPath + "\\Abstraction Map " + DateTime.Now.ToString("MM-dd-yyyy HH.mm.ss") + ".png", System.Drawing.Imaging.ImageFormat.Png);
-            statusUpdateString = "Abstraction Map saved!";
-            lblStatusUpdate.Text = statusUpdateString;
+            UpdateStatusBar("Saving Abstraction Map to image file...");
+            
+            picAbstractor.Image.Save(desktopPath + "\\Abstraction Map " + DateTime.Now.ToString("MM-dd-yyyy HH.mm.ss") + ".png", System.Drawing.Imaging.ImageFormat.Png);
+            UpdateStatusBar("Abstraction Map saved!");
+            
         }
 
 
@@ -1328,7 +1263,7 @@ namespace Binomics_Labs_Software_Suite
 
 
 
-        private void abstractDNA()
+        private void abstractDNA(int filterSize)
         {
             abstractedDNA = "";
             abstractCountA = 0;
@@ -1336,7 +1271,7 @@ namespace Binomics_Labs_Software_Suite
             abstractCountC = 0;
             abstractCountG = 0;
 
-            abstractionData = ChunksUpto(new string(rngNucleotides), trackBarFilterSize.Value).ToArray<string>();
+            abstractionData = ChunksUpto(new string(rngNucleotides), filterSize).ToArray<string>();
             foreach (string segment in abstractionData)
             {
                 abstractCountA = segment.Count(x => x == 'A');
@@ -1373,14 +1308,6 @@ namespace Binomics_Labs_Software_Suite
 
             txtDNA.Text = abstractedDNA;
             abstractedNucleotides = abstractedDNA.ToCharArray();
-            /*
-             * read loaded DNA
-             * cut DNA into segments equal to window
-             * find average letter of each segment
-             * replace all letters in window with majority letter
-             * concat all window segments into one file
-             * revisualize
-             */
         }
 
 
@@ -1388,7 +1315,7 @@ namespace Binomics_Labs_Software_Suite
         private void TrackBarFilterSize_Scroll(object sender, EventArgs e)
         {
             txtAbstractorWindowSize.Text = trackBarFilterSize.Value.ToString();
-            abstractDNA();
+            abstractDNA(trackBarFilterSize.Value);
             visualizeDNA(abstractedNucleotides);
         }
 
@@ -1400,14 +1327,14 @@ namespace Binomics_Labs_Software_Suite
                 if (Convert.ToInt32(txtAbstractorWindowSize.Text) > 19 && Convert.ToInt32(txtAbstractorWindowSize.Text) <= 1000000)
             {
                 trackBarFilterSize.Value = Convert.ToInt32(txtAbstractorWindowSize.Text);
-                    abstractDNA();
+                    abstractDNA(Convert.ToInt32(txtAbstractorWindowSize.Text));
                     visualizeDNA(abstractedNucleotides);
                 }
             else
             {
                 trackBarFilterSize.Value = 20;
                 txtAbstractorWindowSize.Text = "20";
-                    abstractDNA();
+                    abstractDNA(20);
                     visualizeDNA(abstractedNucleotides);
                 }
 
@@ -1417,7 +1344,7 @@ namespace Binomics_Labs_Software_Suite
 
         public void generateLadderDNA()
         {
-            ladderLength = desiredRandomDNALength.Round(1000)/400;
+            ladderLength = 1000000 / 400; //desiredRandomDNALength.Round(1000)/400;
             int ladderRung = ladderLength / 10;
             rungArray = new string[ladderLength];
 
@@ -1437,18 +1364,162 @@ namespace Binomics_Labs_Software_Suite
                 rungArray[y+1] = String.Join("", new string('T', 100), new string('G', 300));
             }
 
+            for (int y = (ladderRung); y <= ladderLength - 1; y += ladderRung)
+            {
+                rungArray[y - 1] = String.Join("", new string('T', 400));
+                rungArray[y] = String.Join("", new string('T', 400));
+                rungArray[y + 1] = String.Join("", new string('T', 400));
+            }
 
-            rungArray[ladderLength - 3] = String.Join("", new string('T', 100), new string('G', 300));
-            rungArray[ladderLength - 2] = String.Join("", new string('T', 100), new string('G', 300));
-            rungArray[ladderLength-1] = String.Join("", new string('T', 100), new string('G', 300));
+            rungArray[ladderLength - 3] = String.Join("", new string('T', 400));
+            rungArray[ladderLength - 2] = String.Join("", new string('T', 400));
+            rungArray[ladderLength-1] = String.Join("", new string('T', 400));
             txtDNA.Text = String.Join("", rungArray);
         }
 
-        private void Button4_Click(object sender, EventArgs e)
+
+
+        private void BtnBatchVisualize_Click(object sender, EventArgs e)
         {
-            generateLadderDNA();
+            UpdateStatusBar("Loading Genomic Data...");
+          
+           
+            FolderBrowserDialog folderBrowserDialogInputDir = new FolderBrowserDialog();
+            FolderBrowserDialog folderBrowserDialogOutputDir = new FolderBrowserDialog();
+            string inputData = "";
+
+            if (folderBrowserDialogInputDir.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    batchFolderPath = folderBrowserDialogInputDir.SelectedPath;
+                    DirectoryInfo subdirectoryEntries = new DirectoryInfo(batchFolderPath);
+                    foreach (DirectoryInfo subdirectory in subdirectoryEntries.GetDirectories())
+                    {
+                        foreach (FileInfo file in subdirectory.GetFiles("*.fna"))  //change depending on target file
+                        {
+                            batchAbstractorFiles.Add(file.FullName);
+                           // batchAbstractorFiles.Add(file.Name);
+                        }
+                    }
+
+                    if (folderBrowserDialogOutputDir.ShowDialog() == DialogResult.OK)
+                    {
+                        batchFolderPath = folderBrowserDialogOutputDir.SelectedPath;
+                        foreach (string file in batchAbstractorFiles)
+                        {
+                            rngDNA = "";
+                            UpdateStatusBar("Removing FASTA comments...");
+                            var oldLines = File.ReadAllLines(file);  //FIX THIS
+                            for (int i = 0; i < oldLines.Length; i++)
+                            {
+                                if (oldLines[i].Contains('>'))
+                                {
+                                    oldLines[i] = "@"; //replace entire FASTA comment line with a single @ for character delimited CDS's, not elegant but works
+                                }
+                            }
+                            //var newLines = oldLines.Where(line => !line.Contains('>'));
+                            inputData = string.Join("", oldLines);
+                            UpdateStatusBar("Removing line breaks and whitespace...");
+                            inputData = inputData.Trim(new char[] { '\r', '\n', ' '}); //REMOVE ALL NONSPECIFIC NOTATIONS
+                            inputData = inputData.Replace("@", "");
+                            inputData = inputData.Replace("N", "");
+                            inputData = inputData.Replace("U", "");
+                            inputData = inputData.Replace("W", "");
+                            inputData = inputData.Replace("S", "");
+                            inputData = inputData.Replace("M", "");
+                            inputData = inputData.Replace("K", "");
+                            inputData = inputData.Replace("R", "");
+                            inputData = inputData.Replace("Y", "");
+                            inputData = inputData.Replace("B", "");
+                            inputData = inputData.Replace("D", "");
+                            inputData = inputData.Replace("H", "");
+                            inputData = inputData.Replace("V", "");
+                            inputData = inputData.Replace("Z", "");
+
+                            string monolith = inputData.Substring(0, 1000000); //adjust this to average file size
+                            rngDNA = monolith;
+                            txtDNA.Text = monolith;
+                            UpdateStatusBar("File formatting complete!");
+                            desiredRandomDNALength = rngDNA.Length;
+                            rngNucleotides = new char[desiredRandomDNALength];
+                            rngNucleotides = rngDNA.ToCharArray();
+                            picAbstractor.Image = visualizeDNA(rngNucleotides);
+                            UpdateStatusBar("Saving Abstraction Map to image file...");
+                            MultiVisualize().Save(batchFolderPath + "\\" + Path.GetFileNameWithoutExtension(file) + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                            UpdateStatusBar("Abstraction Map saved!");
+                        }
+                    }   
+                }
+
+                catch
+                {
+
+                }
+            }
+        }
+
+        
+
+        public Bitmap MultiVisualize()
+        {
+            visualAbstraction1 = bmpDNA;
+            abstractDNA(20);
+            visualAbstraction20 = visualizeDNA(abstractedNucleotides);
+            abstractDNA(40);
+            visualAbstraction40 = visualizeDNA(abstractedNucleotides);
+            abstractDNA(80);
+            visualAbstraction80 = visualizeDNA(abstractedNucleotides);
+            abstractDNA(100);
+            visualAbstraction100 = visualizeDNA(abstractedNucleotides);
+            abstractDNA(200);
+            visualAbstraction200 = visualizeDNA(abstractedNucleotides);
+            abstractDNA(400);
+            visualAbstraction400 = visualizeDNA(abstractedNucleotides);
+
+            Bitmap bitmap = new Bitmap((visualAbstraction1.Width +
+                visualAbstraction20.Width +
+                visualAbstraction40.Width +
+                visualAbstraction80.Width +
+                visualAbstraction100.Width +
+                visualAbstraction200.Width +
+                visualAbstraction400.Width), 
+                visualAbstraction1.Height);
+
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+
+                using (SolidBrush brush = new SolidBrush(Color.FromArgb(0, 0, 0)))
+                {
+                    g.FillRectangle(brush, 0, 0, bitmap.Width, bitmap.Height);
+                }
+
+                g.DrawImage(visualAbstraction1, 0, 0);
+                g.DrawImage(visualAbstraction20, visualAbstraction1.Width + 5, 0);
+                g.DrawImage(visualAbstraction40, visualAbstraction1.Width*2 + 10, 0);
+                g.DrawImage(visualAbstraction80, visualAbstraction1.Width*3 + 15, 0);
+                g.DrawImage(visualAbstraction100, visualAbstraction1.Width*4 + 20, 0);
+                g.DrawImage(visualAbstraction200, visualAbstraction1.Width*5 + 25, 0);
+                g.DrawImage(visualAbstraction400, visualAbstraction1.Width*6 + 30, 0);
+            }
+
+            return bitmap;
+        }
+
+
+
+        public void UpdateStatusBar(string status)
+        {
+            txtConsoleOutput.Invoke((MethodInvoker)delegate
+            {
+                txtConsoleOutput.Text = status;
+            });
         }
     }
+
+
+
+
 
 
     public static class MathExtensions

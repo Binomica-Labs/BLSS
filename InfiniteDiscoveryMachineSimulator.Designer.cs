@@ -59,6 +59,8 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btnBatchVisualize = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txtAbstractorWindowSize = new System.Windows.Forms.TextBox();
             this.btnAbstractorLoad = new System.Windows.Forms.Button();
@@ -67,8 +69,7 @@
             this.trackBarFilterSize = new System.Windows.Forms.TrackBar();
             this.panel2 = new System.Windows.Forms.Panel();
             this.picAbstractor = new System.Windows.Forms.PictureBox();
-            this.lblStatusUpdate = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
+            this.txtConsoleOutput = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -408,6 +409,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.btnBatchVisualize);
             this.tabPage4.Controls.Add(this.button4);
             this.tabPage4.Controls.Add(this.label3);
             this.tabPage4.Controls.Add(this.txtAbstractorWindowSize);
@@ -423,11 +425,32 @@
             this.tabPage4.Text = "Visual Abstractor";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // btnBatchVisualize
+            // 
+            this.btnBatchVisualize.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBatchVisualize.Location = new System.Drawing.Point(548, 536);
+            this.btnBatchVisualize.Name = "btnBatchVisualize";
+            this.btnBatchVisualize.Size = new System.Drawing.Size(323, 100);
+            this.btnBatchVisualize.TabIndex = 24;
+            this.btnBatchVisualize.Text = "B A T C H   V I S";
+            this.btnBatchVisualize.UseVisualStyleBackColor = true;
+            this.btnBatchVisualize.Click += new System.EventHandler(this.BtnBatchVisualize_Click);
+            // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(548, 430);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(323, 100);
+            this.button4.TabIndex = 23;
+            this.button4.Text = "M A K E   L A D D E R";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(632, 37);
+            this.label3.Location = new System.Drawing.Point(631, 6);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(136, 25);
             this.label3.TabIndex = 22;
@@ -436,7 +459,7 @@
             // txtAbstractorWindowSize
             // 
             this.txtAbstractorWindowSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAbstractorWindowSize.Location = new System.Drawing.Point(623, 65);
+            this.txtAbstractorWindowSize.Location = new System.Drawing.Point(622, 34);
             this.txtAbstractorWindowSize.Name = "txtAbstractorWindowSize";
             this.txtAbstractorWindowSize.Size = new System.Drawing.Size(162, 38);
             this.txtAbstractorWindowSize.TabIndex = 21;
@@ -447,7 +470,7 @@
             // 
             this.btnAbstractorLoad.Enabled = false;
             this.btnAbstractorLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAbstractorLoad.Location = new System.Drawing.Point(549, 143);
+            this.btnAbstractorLoad.Location = new System.Drawing.Point(548, 112);
             this.btnAbstractorLoad.Name = "btnAbstractorLoad";
             this.btnAbstractorLoad.Size = new System.Drawing.Size(323, 100);
             this.btnAbstractorLoad.TabIndex = 20;
@@ -458,7 +481,7 @@
             // btnAbstractorSave
             // 
             this.btnAbstractorSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAbstractorSave.Location = new System.Drawing.Point(549, 355);
+            this.btnAbstractorSave.Location = new System.Drawing.Point(548, 324);
             this.btnAbstractorSave.Name = "btnAbstractorSave";
             this.btnAbstractorSave.Size = new System.Drawing.Size(323, 100);
             this.btnAbstractorSave.TabIndex = 19;
@@ -469,7 +492,7 @@
             // btnAbstractorVisualize
             // 
             this.btnAbstractorVisualize.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAbstractorVisualize.Location = new System.Drawing.Point(549, 249);
+            this.btnAbstractorVisualize.Location = new System.Drawing.Point(548, 218);
             this.btnAbstractorVisualize.Name = "btnAbstractorVisualize";
             this.btnAbstractorVisualize.Size = new System.Drawing.Size(323, 100);
             this.btnAbstractorVisualize.TabIndex = 18;
@@ -509,39 +532,29 @@
             this.picAbstractor.Location = new System.Drawing.Point(3, 3);
             this.picAbstractor.Name = "picAbstractor";
             this.picAbstractor.Size = new System.Drawing.Size(400, 649);
+            this.picAbstractor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picAbstractor.TabIndex = 4;
             this.picAbstractor.TabStop = false;
             // 
-            // lblStatusUpdate
+            // txtConsoleOutput
             // 
-            this.lblStatusUpdate.AutoSize = true;
-            this.lblStatusUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatusUpdate.Location = new System.Drawing.Point(5, 730);
-            this.lblStatusUpdate.Name = "lblStatusUpdate";
-            this.lblStatusUpdate.Size = new System.Drawing.Size(577, 31);
-            this.lblStatusUpdate.TabIndex = 11;
-            this.lblStatusUpdate.Text = "Hi, please generate or load DNA sequence.";
-            this.lblStatusUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtConsoleOutput.BackColor = System.Drawing.Color.Black;
+            this.txtConsoleOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.85F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtConsoleOutput.ForeColor = System.Drawing.Color.White;
+            this.txtConsoleOutput.Location = new System.Drawing.Point(12, 718);
+            this.txtConsoleOutput.Name = "txtConsoleOutput";
+            this.txtConsoleOutput.Size = new System.Drawing.Size(891, 48);
+            this.txtConsoleOutput.TabIndex = 204;
+            this.txtConsoleOutput.Text = "";
             // 
-            // button4
-            // 
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(549, 461);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(323, 100);
-            this.button4.TabIndex = 23;
-            this.button4.Text = "M A K E   L A D D E R";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.Button4_Click);
-            // 
-            // IDMSimulator
+            // InfiniteDiscoveryMachineSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(914, 768);
-            this.Controls.Add(this.lblStatusUpdate);
+            this.Controls.Add(this.txtConsoleOutput);
             this.Controls.Add(this.tabControl1);
-            this.Name = "IDMSimulator";
+            this.Name = "InfiniteDiscoveryMachineSimulator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "The Infinite Discovery Machine Simulator v0.1";
             this.tabControl1.ResumeLayout(false);
@@ -559,7 +572,6 @@
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picAbstractor)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -580,7 +592,6 @@
         private System.Windows.Forms.Button btnShred;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoadFile;
-        private System.Windows.Forms.Label lblStatusUpdate;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblShredderTotalBases;
         private System.Windows.Forms.Label lblShredderFragmentCount;
@@ -606,6 +617,8 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox picAbstractor;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnBatchVisualize;
+        private System.Windows.Forms.RichTextBox txtConsoleOutput;
     }
 }
 
