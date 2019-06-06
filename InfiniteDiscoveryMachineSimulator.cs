@@ -47,7 +47,7 @@ namespace Binomics_Labs_Software_Suite
         public double percentRNG = 0.0;
 
         //random generator stuff
-        public Random bullshitRNG;  //internal software RNG of low quality bullshit, for demo purposes only until TrueRNG v3 class for handling 64bit numbers is made
+        public Random softwareRNG;  //internal software RNG of low quality entropy pool, for demo purposes only until TrueRNG v3 class for handling 64bit numbers is made
         public int[] rngRawNums;
         public char[] rngNucleotides;
         public string[] codons;
@@ -396,13 +396,13 @@ namespace Binomics_Labs_Software_Suite
                 UpdateStatusBar("Generating Pseudo-Random DNA...");
                 rngRawNums = new int[desiredRandomDNALength];
                 rngNucleotides = new char[desiredRandomDNALength];
-                bullshitRNG = new Random();
+                softwareRNG = new Random();
 
 
                 for (int i = 0; i < desiredRandomDNALength; i++)
                 {
                     UpdateStatusBar("Generating Pseudo-Random DNA..." + ((i / desiredRandomDNALength) * 100).ToString());
-                    rngRawNums[i] = bullshitRNG.Next(0, 255);  //use internal software RNG
+                    rngRawNums[i] = softwareRNG.Next(0, 255);  //use internal software RNG
 
                     if (rngRawNums[i] >= 0 && rngRawNums[i] <= 63)
                     {
@@ -661,16 +661,16 @@ namespace Binomics_Labs_Software_Suite
         {
             UpdateStatusBar("Shredding DNA...");
             string currentFragment;
-            bullshitRNG = new Random();
+            softwareRNG = new Random();
 
             while (fragLengths.Average() > 4)
             {
                 UpdateStatusBar("Shredding DNA..." + Math.Ceiling(((4.00/(fragLengths.Average()))*100)).ToString()+"%");
-                fragmentChoice = bullshitRNG.Next(0, fragments.Count);
+                fragmentChoice = softwareRNG.Next(0, fragments.Count);
 
                 if (fragments[fragmentChoice].Length > 4)
                 {
-                    shredderCutPosition = bullshitRNG.Next(1, fragments[fragmentChoice].Length - 1);
+                    shredderCutPosition = softwareRNG.Next(1, fragments[fragmentChoice].Length - 1);
                     currentFragment = fragments[fragmentChoice];
                     choppedFragment = currentFragment.Substring(0, shredderCutPosition);
                     remainingFragment = currentFragment.Substring(shredderCutPosition);
@@ -725,10 +725,10 @@ namespace Binomics_Labs_Software_Suite
             while (shredderFragmentLengthAverage < 2000)
             {
                 UpdateStatusBar("Ligating DNA..." + Math.Ceiling((((fragLengths.Average()) / 500) * 100)).ToString() + "%");
-                int firstFragmentChoice = bullshitRNG.Next(0, fragments.Count);
+                int firstFragmentChoice = softwareRNG.Next(0, fragments.Count);
                 string firstFragment = fragments[firstFragmentChoice];
 
-                int secondFragmentChoice = bullshitRNG.Next(0, fragments.Count);
+                int secondFragmentChoice = softwareRNG.Next(0, fragments.Count);
                 string secondFragment = fragments[secondFragmentChoice];
 
                 if (firstFragmentChoice != secondFragmentChoice)
@@ -1437,9 +1437,9 @@ namespace Binomics_Labs_Software_Suite
                             inputData = inputData.Replace("V", "");
                             inputData = inputData.Replace("Z", "");
 
-                            string monolith = inputData.Substring(0, 1000000); //adjust this to average file size
-                            rngDNA = monolith;
-                            txtDNA.Text = monolith;
+                            //string monolith = inputData.Substring(0, 100000); //adjust this to average file size
+                            rngDNA = inputData;
+                            //txtDNA.Text = inputData;
                             UpdateStatusBar("File formatting complete!");
                             desiredRandomDNALength = rngDNA.Length;
                             rngNucleotides = new char[desiredRandomDNALength];
