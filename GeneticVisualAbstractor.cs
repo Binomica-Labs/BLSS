@@ -68,7 +68,7 @@ namespace Binomics_Labs_Software_Suite
         public static IEnumerable<string> ChunksUpto(string str, int maxChunkSize)
         {
             for (int i = 0; i < str.Length; i += maxChunkSize)
-            {
+            {                                                                                       //string extension to chop string into chunks of a user defined size, super useful!
                 yield return str.Substring(i, Math.Min(maxChunkSize, str.Length - i));
             }
         }
@@ -80,7 +80,7 @@ namespace Binomics_Labs_Software_Suite
             pickNucleotideColor();
 
             if (loadedDNALength / 200 < 1)
-            {
+            {                                           //logic to handle when input DNA length is less than a full row across the data image column
                 entropyImageHeight = 1;
             }
 
@@ -107,7 +107,7 @@ namespace Binomics_Labs_Software_Suite
                         else if (input[colorPosition] == 'T')
                         {
                             visualizedDNA.SetPixel(x, y, colorT);
-                            colorPosition++;
+                            colorPosition++;                                //nested for loop going through each pixel in the column and assigning color based on corresponding DNA letter
                         }
 
                         else if (input[colorPosition] == 'G')
@@ -166,7 +166,7 @@ namespace Binomics_Labs_Software_Suite
             {
                 colorA = Color.FromArgb(0, 230, 255); //cyan
                 colorT = Color.FromArgb(255, 255, 0); //yellow
-                colorC = Color.FromArgb(220, 0, 0); //red
+                colorC = Color.FromArgb(220, 0, 0); //red               //these colors work well and their optical illusion of blending makes for very distinct pattern recognition
                 colorG = Color.FromArgb(0, 0, 0); //black
             }
             catch (Exception e)
@@ -190,7 +190,7 @@ namespace Binomics_Labs_Software_Suite
             foreach (string segment in abstractionData)
             {
                 abstractCountA = segment.Count(x => x == 'A');
-                abstractCountT = segment.Count(x => x == 'T');
+                abstractCountT = segment.Count(x => x == 'T');      //count how many of each letter there are in the segment of dna
                 abstractCountC = segment.Count(x => x == 'C');
                 abstractCountG = segment.Count(x => x == 'G');
 
@@ -202,9 +202,9 @@ namespace Binomics_Labs_Software_Suite
                 }
 
                 else if (abstractCountC > abstractCountA &&
-                         abstractCountC > abstractCountT &&
-                         abstractCountC > abstractCountG)
-                {
+                         abstractCountC > abstractCountT &&                                 //check which letter occurs most frequently in said segment of DNA
+                         abstractCountC > abstractCountG)                                   //replace the entire segment of DNA with an eqivalent segment full of just the dominant letter
+                {                                                                           
                     abstractedDNA = abstractedDNA + new string('C', segment.Length);
                 }
 
@@ -221,19 +221,19 @@ namespace Binomics_Labs_Software_Suite
                 }
             }
 
-            abstractedNucleotides = abstractedDNA.ToCharArray();
+            abstractedNucleotides = abstractedDNA.ToCharArray();                            //take this new data and apply it to a new char[] array to be visualized later
         }
 
 
 
-        public string generateLadderDNA()
+        public string generateLadderDNA()       //function for adding a scale bar or ladder to the visualizations so one can pinpoint the region of interest visually and genomically
         {
             ladderLength = 1000000 / 200;
-            int ladderRung = ladderLength / 10;
+            int ladderRung = ladderLength / 10;     //scale the ladder to the input DNA length
             rungArray = new string[ladderLength];
 
             rungArray[0] = String.Join("", new string('T', 100), new string('G', 300));
-            rungArray[1] = String.Join("", new string('T', 100), new string('G', 300));
+            rungArray[1] = String.Join("", new string('T', 100), new string('G', 300));     //alternate between yellow and black pixels to make the rungs of the scale ladder
             rungArray[2] = String.Join("", new string('T', 100), new string('G', 300));
 
             for (int y = 3; y < ladderLength; y++)
@@ -270,7 +270,7 @@ namespace Binomics_Labs_Software_Suite
             UpdateStatusBar("Abstracting 20bp column...");
             abstractDNA(20);
             visualAbstraction20 = visualizeDNA(abstractedNucleotides);
-            UpdateStatusBar("Abstracting 40bp column...");
+            UpdateStatusBar("Abstracting 40bp column...");                              //iterate through a set of filter values and produce an image for that corresponding abstraction
             abstractDNA(40);
             visualAbstraction40 = visualizeDNA(abstractedNucleotides);
             UpdateStatusBar("Abstracting 80bp column...");
@@ -290,7 +290,7 @@ namespace Binomics_Labs_Software_Suite
                 visualAbstraction20.Width +
                 visualAbstraction40.Width +
                 visualAbstraction80.Width +
-                visualAbstraction100.Width +
+                visualAbstraction100.Width +                                                          
                 visualAbstraction200.Width +
                 visualAbstraction400.Width),
                 visualAbstraction1.Height);
@@ -307,8 +307,8 @@ namespace Binomics_Labs_Software_Suite
                 g.DrawImage(visualAbstraction20, visualAbstraction1.Width + 5, 0);
                 g.DrawImage(visualAbstraction40, visualAbstraction1.Width * 2 + 10, 0);
                 g.DrawImage(visualAbstraction80, visualAbstraction1.Width * 3 + 15, 0);
-                g.DrawImage(visualAbstraction100, visualAbstraction1.Width * 4 + 20, 0);
-                g.DrawImage(visualAbstraction200, visualAbstraction1.Width * 5 + 25, 0);
+                g.DrawImage(visualAbstraction100, visualAbstraction1.Width * 4 + 20, 0);                //stitch all the abstraction images together in order of increasing filter size on one large image
+                g.DrawImage(visualAbstraction200, visualAbstraction1.Width * 5 + 25, 0);                //make a new image large enough to fit all 7 data columns + 5 pixels of spacer between each
                 g.DrawImage(visualAbstraction400, visualAbstraction1.Width * 6 + 30, 0);
             }
 
@@ -328,7 +328,7 @@ namespace Binomics_Labs_Software_Suite
         public void UpdateStatusBar(string status)
         {
             txtConsoleOutput.Invoke((MethodInvoker)delegate
-            {
+            {                                                           //be able to change the GUI console textbox from another thread
                 txtConsoleOutput.Text = status;
             });
         }
@@ -338,7 +338,7 @@ namespace Binomics_Labs_Software_Suite
         public void UpdateVisualizationWindow(Image currentImage)
         {
             picAbstractor.Invoke((MethodInvoker)delegate
-            {
+            {                                                           //be able to update the picture box gui control from another thread
                 picAbstractor.Image = currentImage;
             });
         }
@@ -356,7 +356,7 @@ namespace Binomics_Labs_Software_Suite
 
                 btnBatchVisualize.Invoke((MethodInvoker)delegate
                 {
-                    btnBatchVisualize.Enabled = false;
+                    btnBatchVisualize.Enabled = false;                      //enable or disable the buttons during processing to avoid accedental cross-thread malarkey
                 });
 
                 btnAbstractorSave.Invoke((MethodInvoker)delegate
@@ -402,7 +402,7 @@ namespace Binomics_Labs_Software_Suite
                     {
                         using (myStream)
                         {
-                            fileLines = File.ReadAllLines(openFileDialog1.FileName);
+                            fileLines = File.ReadAllLines(openFileDialog1.FileName);                //pick the single FASTA .fna file you wish to visualize
                             visualizationFileName = openFileDialog1.FileName;
                             ButtonStates("off");
                         }
@@ -446,14 +446,14 @@ namespace Binomics_Labs_Software_Suite
                 //var newLines = fileLines.Where(line => !line.Contains('>'));
                 inputData = string.Join("", fileLines);
                 UpdateStatusBar("Removing line breaks and whitespace...");
-                inputData = inputData.Trim(new char[] { '\r', '\n', ' ' }); //REMOVE ALL NONSPECIFIC NOTATIONS
+                inputData = inputData.Trim(new char[] { '\r', '\n', ' ' }); //REMOVE ALL WHITESPACE, CARRIAGE RETURNS, AND NEWLINES
                 inputData = inputData.Replace("@", "");
                 inputData = inputData.Replace("N", "");
                 inputData = inputData.Replace("U", "");
                 inputData = inputData.Replace("W", "");
                 inputData = inputData.Replace("S", "");
                 inputData = inputData.Replace("M", "");
-                inputData = inputData.Replace("K", "");
+                inputData = inputData.Replace("K", "");             //REMOVE ALL IUPAC NOTATIONS ASIDE FROM A, T, C, AND G
                 inputData = inputData.Replace("R", "");
                 inputData = inputData.Replace("Y", "");
                 inputData = inputData.Replace("B", "");
@@ -506,7 +506,7 @@ namespace Binomics_Labs_Software_Suite
                         fileLines[i] = "@"; //replace entire FASTA comment line with a single @ for character delimited CDS's, not elegant but works
                     }
                 }
-                //var newLines = fileLines.Where(line => !line.Contains('>'));
+
                 inputData = string.Join("", fileLines);
                 UpdateStatusBar("Removing line breaks and whitespace...");
                 inputData = inputData.Trim(new char[] { '\r', '\n', ' ' }); //REMOVE ALL NONSPECIFIC NOTATIONS
@@ -516,7 +516,7 @@ namespace Binomics_Labs_Software_Suite
                 inputData = inputData.Replace("W", "");
                 inputData = inputData.Replace("S", "");
                 inputData = inputData.Replace("M", "");
-                inputData = inputData.Replace("K", "");
+                inputData = inputData.Replace("K", "");             //REMOVE ALL IUPAC NOTATIONS ASIDE FROM A, T, C, AND G
                 inputData = inputData.Replace("R", "");
                 inputData = inputData.Replace("Y", "");
                 inputData = inputData.Replace("B", "");
@@ -596,7 +596,7 @@ namespace Binomics_Labs_Software_Suite
                     DirectoryInfo subdirectoryEntries = new DirectoryInfo(batchFolderPath);
                     foreach (DirectoryInfo subdirectory in subdirectoryEntries.GetDirectories())
                     {
-                        foreach (FileInfo file in subdirectory.GetFiles("*.fna"))  //change depending on target file
+                        foreach (FileInfo file in subdirectory.GetFiles("*.fna"))  //make a list of all the FASTA .fna files in all sub-directories and save that info as full path data
                         {
                             batchAbstractorFiles.Add(file.FullName);
                         }
@@ -631,7 +631,7 @@ namespace Binomics_Labs_Software_Suite
         private void BtnExit_Click(object sender, EventArgs e)
         {
             if (abstractorVisualizer != null)
-            abstractorVisualizer.Abort();
+            abstractorVisualizer.Abort();               //kill threads on exit click
             if (batchVisualizer != null)
             batchVisualizer.Abort();
             this.Close();
@@ -642,7 +642,7 @@ namespace Binomics_Labs_Software_Suite
         private void GeneticVisualAbstractor_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (abstractorVisualizer != null)
-                abstractorVisualizer.Abort();
+                abstractorVisualizer.Abort();               //kill threads during closing
             if (batchVisualizer != null)
                 batchVisualizer.Abort();
         }
@@ -653,7 +653,7 @@ namespace Binomics_Labs_Software_Suite
         {
             if (abstractorVisualizer != null)
                 abstractorVisualizer.Abort();
-            if (batchVisualizer != null)
+            if (batchVisualizer != null)                //kill threads after closing...just in case, lol
                 batchVisualizer.Abort();
         }
     }
