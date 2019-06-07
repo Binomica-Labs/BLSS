@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Binomics_Labs_Software_Suite
@@ -17,10 +10,14 @@ namespace Binomics_Labs_Software_Suite
             InitializeComponent();
         }
 
+
+
         private void BtnExit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+
 
         private void BtnIDM_Click(object sender, EventArgs e)
         {
@@ -29,15 +26,16 @@ namespace Binomics_Labs_Software_Suite
             IDM.Show();
             IDM.Activate();
             IDM.FormClosed += new FormClosedEventHandler(IDM_FormClosed);
-
-           
-
         }
+
+
 
         void IDM_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
         }
+
+
 
         private void BtnCodonBiasAnalyzer_Click(object sender, EventArgs e)
         {
@@ -46,13 +44,16 @@ namespace Binomics_Labs_Software_Suite
             CBA.Show();
             CBA.Activate();
             CBA.FormClosed += new FormClosedEventHandler(CBA_FormClosed);
-
         }
+
+
 
         void CBA_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
         }
+
+
 
         private void BtnGenbankParser_Click(object sender, EventArgs e)
         {
@@ -66,6 +67,24 @@ namespace Binomics_Labs_Software_Suite
 
 
         void GBP_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+        }
+
+
+
+        private void BtnGeneticVisualAbstractor_Click(object sender, EventArgs e)
+        {
+            GeneticVisualAbstractor GVA = new GeneticVisualAbstractor();
+            this.WindowState = FormWindowState.Minimized;
+            GVA.Show();
+            GVA.Activate();
+            GVA.FormClosed += new FormClosedEventHandler(GBP_FormClosed);
+        }
+
+
+
+        void GVA_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
         }

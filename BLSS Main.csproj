@@ -80,6 +80,12 @@
     <Compile Include="GenbankParser.Designer.cs">
       <DependentUpon>GenbankParser.cs</DependentUpon>
     </Compile>
+    <Compile Include="GeneticVisualAbstractor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GeneticVisualAbstractor.Designer.cs">
+      <DependentUpon>GeneticVisualAbstractor.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GenbankParser.resx">
       <DependentUpon>GenbankParser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GeneticVisualAbstractor.resx">
+      <DependentUpon>GeneticVisualAbstractor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

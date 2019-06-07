@@ -35,6 +35,7 @@
             this.btnBacterialMiniSpecController = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
+            this.btnGeneticVisualAbstractor = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnIDM
@@ -49,7 +50,7 @@
             // 
             // btnCodonBiasAnalyzer
             // 
-            this.btnCodonBiasAnalyzer.Location = new System.Drawing.Point(12, 106);
+            this.btnCodonBiasAnalyzer.Location = new System.Drawing.Point(12, 200);
             this.btnCodonBiasAnalyzer.Name = "btnCodonBiasAnalyzer";
             this.btnCodonBiasAnalyzer.Size = new System.Drawing.Size(552, 88);
             this.btnCodonBiasAnalyzer.TabIndex = 2;
@@ -59,7 +60,7 @@
             // 
             // btnGenbankParser
             // 
-            this.btnGenbankParser.Location = new System.Drawing.Point(12, 294);
+            this.btnGenbankParser.Location = new System.Drawing.Point(12, 388);
             this.btnGenbankParser.Name = "btnGenbankParser";
             this.btnGenbankParser.Size = new System.Drawing.Size(552, 88);
             this.btnGenbankParser.TabIndex = 4;
@@ -69,7 +70,7 @@
             // 
             // btnBacterialMiniSpecController
             // 
-            this.btnBacterialMiniSpecController.Location = new System.Drawing.Point(12, 200);
+            this.btnBacterialMiniSpecController.Location = new System.Drawing.Point(12, 294);
             this.btnBacterialMiniSpecController.Name = "btnBacterialMiniSpecController";
             this.btnBacterialMiniSpecController.Size = new System.Drawing.Size(552, 88);
             this.btnBacterialMiniSpecController.TabIndex = 3;
@@ -86,7 +87,7 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(12, 388);
+            this.btnExit.Location = new System.Drawing.Point(12, 482);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(552, 88);
             this.btnExit.TabIndex = 8;
@@ -94,12 +95,23 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
+            // btnGeneticVisualAbstractor
+            // 
+            this.btnGeneticVisualAbstractor.Location = new System.Drawing.Point(12, 106);
+            this.btnGeneticVisualAbstractor.Name = "btnGeneticVisualAbstractor";
+            this.btnGeneticVisualAbstractor.Size = new System.Drawing.Size(552, 88);
+            this.btnGeneticVisualAbstractor.TabIndex = 9;
+            this.btnGeneticVisualAbstractor.Text = "Genetic Visual Abstractor";
+            this.btnGeneticVisualAbstractor.UseVisualStyleBackColor = true;
+            this.btnGeneticVisualAbstractor.Click += new System.EventHandler(this.BtnGeneticVisualAbstractor_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(576, 489);
+            this.ClientSize = new System.Drawing.Size(576, 579);
+            this.Controls.Add(this.btnGeneticVisualAbstractor);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnGenbankParser);
@@ -124,5 +136,6 @@
         private System.Windows.Forms.Button btnBacterialMiniSpecController;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnGeneticVisualAbstractor;
     }
 }
