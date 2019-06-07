@@ -37,7 +37,6 @@ namespace Binomics_Labs_Software_Suite
         public Thread abstractorVisualizer;
         public Thread batchVisualizer;
 
-
         //abstraction stuff
         public string[] abstractionData;
         public int abstractCountA;
@@ -63,6 +62,8 @@ namespace Binomics_Labs_Software_Suite
         public string batchFolderPath;
         public List<String> batchAbstractorFiles = new List<string>();
         public Bitmap completedVisualization;
+
+
 
         public static IEnumerable<string> ChunksUpto(string str, int maxChunkSize)
         {
@@ -167,30 +168,6 @@ namespace Binomics_Labs_Software_Suite
                 colorT = Color.FromArgb(255, 255, 0); //yellow
                 colorC = Color.FromArgb(220, 0, 0); //red
                 colorG = Color.FromArgb(0, 0, 0); //black
-
-                /*
-                colorA = Color.FromArgb(Convert.ToInt16(txtColorAred.Text),
-                                                    Convert.ToInt16(txtColorAgreen.Text),
-                                                    Convert.ToInt16(txtColorAblue.Text));
-
-                colorT = Color.FromArgb(Convert.ToInt16(txtColorTred.Text),
-                                        Convert.ToInt16(txtColorTgreen.Text),
-                                        Convert.ToInt16(txtColorTblue.Text));
-
-                colorC = Color.FromArgb(Convert.ToInt16(txtColorCred.Text),
-                                        Convert.ToInt16(txtColorCgreen.Text),
-                                        Convert.ToInt16(txtColorCblue.Text));
-
-                colorG = Color.FromArgb(Convert.ToInt16(txtColorGred.Text),
-                                        Convert.ToInt16(txtColorGgreen.Text),
-                                        Convert.ToInt16(txtColorGblue.Text));
-
-                panColorPickerA.BackColor = colorA;
-                panColorPickerT.BackColor = colorT;
-                panColorPickerG.BackColor = colorG;
-                panColorPickerC.BackColor = colorC;
-                */
-
             }
             catch (Exception e)
             {
@@ -251,7 +228,7 @@ namespace Binomics_Labs_Software_Suite
 
         public string generateLadderDNA()
         {
-            ladderLength = 1000000 / 200; //desiredRandomDNALength.Round(1000)/400;
+            ladderLength = 1000000 / 200;
             int ladderRung = ladderLength / 10;
             rungArray = new string[ladderLength];
 
@@ -453,14 +430,8 @@ namespace Binomics_Labs_Software_Suite
 
         public void absractorVisualize()
         {
-
-            UpdateStatusBar("Loading Genomic Data...");
-
-
             loadedDNA = "";
             string inputData = "";
-
-
 
             UpdateStatusBar("Removing FASTA comments...");
             if (fileLines != null)
@@ -666,7 +637,19 @@ namespace Binomics_Labs_Software_Suite
             this.Close();
         }
 
+
+
         private void GeneticVisualAbstractor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (abstractorVisualizer != null)
+                abstractorVisualizer.Abort();
+            if (batchVisualizer != null)
+                batchVisualizer.Abort();
+        }
+
+
+
+        private void GeneticVisualAbstractor_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (abstractorVisualizer != null)
                 abstractorVisualizer.Abort();

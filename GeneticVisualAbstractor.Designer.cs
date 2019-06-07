@@ -130,6 +130,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Genetic Visual Abstractor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GeneticVisualAbstractor_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GeneticVisualAbstractor_FormClosed);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picAbstractor)).EndInit();
             this.ResumeLayout(false);
