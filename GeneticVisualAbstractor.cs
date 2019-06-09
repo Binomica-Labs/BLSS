@@ -50,6 +50,7 @@ namespace Binomics_Labs_Software_Suite
         public int ladderLength;
         public string ladderFile;
         public string[] rungArray;
+        public Image ladderImage;
 
         //Batch Abstractor Stuff
         public Image visualAbstraction1;
@@ -208,7 +209,7 @@ namespace Binomics_Labs_Software_Suite
 
 
 
-        private void abstractDNA(int filterSize)
+        private void AbstractDNA(int filterSize)
         {
             abstractedDNA = "";
             abstractCountA = 0;
@@ -256,39 +257,41 @@ namespace Binomics_Labs_Software_Suite
 
 
 
-        public string generateLadderDNA()       //function for adding a scale bar or ladder to the visualizations so one can pinpoint the region of interest visually and genomically
+        public Image GenerateLadderDNA()       //function for adding a scale bar or ladder to the visualizations so one can pinpoint the region of interest visually and genomically
         {
-            ladderLength = 1000000 / 200;
+            ladderLength = entropyImageHeight;
             int ladderRung = ladderLength / 10;     //scale the ladder to the input DNA length
             rungArray = new string[ladderLength];
 
-            rungArray[0] = String.Join("", new string('T', 100), new string('G', 300));
-            rungArray[1] = String.Join("", new string('T', 100), new string('G', 300));     //alternate between yellow and black pixels to make the rungs of the scale ladder
-            rungArray[2] = String.Join("", new string('T', 100), new string('G', 300));
+            rungArray[0] = String.Join("", new string('G', 150), new string('T', 50));
+            rungArray[1] = String.Join("", new string('G', 150), new string('T', 50));     //alternate between yellow and black pixels to make the rungs of the scale ladder
+            rungArray[2] = String.Join("", new string('G', 150), new string('T', 50));
 
-            for (int y = 3; y < ladderLength; y++)
+            for (int y = 0; y < ladderLength; y++)
             {
-                rungArray[y] = String.Join("", new string('T', 5), new string('G', 395));
+                rungArray[y] = String.Join("", new string('G', 195), new string('T', 5));
             }
 
-            for (int y = (10000 / 400); y <= ladderLength - 1; y += (10000 / 400))
+            for (int y = (10000 / 400); y < ladderLength; y += (10000 / 400))
             {
-                rungArray[y - 1] = String.Join("", new string('T', 100), new string('G', 300));
-                rungArray[y] = String.Join("", new string('T', 100), new string('G', 300));
-                rungArray[y + 1] = String.Join("", new string('T', 100), new string('G', 300));
+                //rungArray[y - 1] = String.Join("", new string('G', 150), new string('T', 50));
+                rungArray[y] = String.Join("", new string('G', 150), new string('T', 50));
+                //rungArray[y + 1] = String.Join("", new string('G', 150), new string('T', 50));
             }
 
-            for (int y = (ladderRung); y <= ladderLength - 1; y += ladderRung)
+            for (int y = (ladderRung); y < ladderLength; y += ladderRung)
             {
-                rungArray[y - 1] = String.Join("", new string('T', 400));
-                rungArray[y] = String.Join("", new string('T', 400));
-                rungArray[y + 1] = String.Join("", new string('T', 400));
+                //rungArray[y - 1] = String.Join("", new string('G', 200));
+                rungArray[y] = String.Join("", new string('G', 200));
+                //rungArray[y + 1] = String.Join("", new string('G', 200));
             }
 
-            rungArray[ladderLength - 3] = String.Join("", new string('T', 400));
-            rungArray[ladderLength - 2] = String.Join("", new string('T', 400));
-            rungArray[ladderLength - 1] = String.Join("", new string('T', 400));
-            return String.Join("", rungArray);
+            rungArray[ladderLength - 3] = String.Join("", new string('T', 200));
+            rungArray[ladderLength - 2] = String.Join("", new string('T', 200));
+            rungArray[ladderLength - 1] = String.Join("", new string('T', 200));
+            char[] ladderNucleotides = String.Join("", rungArray).ToCharArray();
+            Image ladderImage = visualizeDNA(ladderNucleotides);
+            return ladderImage;
         }
 
 
@@ -297,25 +300,27 @@ namespace Binomics_Labs_Software_Suite
         {
             UpdateStatusBar("Calculating nucleotide ratios...");
             ratioImage = RatioImage();
+            UpdateStatusBar("Calculating ladder size...");
+            ladderImage = GenerateLadderDNA();
             UpdateStatusBar("Abstracting pixel perfect column...");
             visualAbstraction1 = visualizeDNA(loadedNucleotides);
             UpdateStatusBar("Abstracting 20bp column...");
-            abstractDNA(20);
+            AbstractDNA(20);
             visualAbstraction20 = visualizeDNA(abstractedNucleotides);
             UpdateStatusBar("Abstracting 40bp column...");                              //iterate through a set of filter values and produce an image for that corresponding abstraction
-            abstractDNA(40);
+            AbstractDNA(40);
             visualAbstraction40 = visualizeDNA(abstractedNucleotides);
             UpdateStatusBar("Abstracting 80bp column...");
-            abstractDNA(80);
+            AbstractDNA(80);
             visualAbstraction80 = visualizeDNA(abstractedNucleotides);
             UpdateStatusBar("Abstracting 100bp column...");
-            abstractDNA(100);
+            AbstractDNA(100);
             visualAbstraction100 = visualizeDNA(abstractedNucleotides);
             UpdateStatusBar("Abstracting 200bp column...");
-            abstractDNA(200);
+            AbstractDNA(200);
             visualAbstraction200 = visualizeDNA(abstractedNucleotides);
             UpdateStatusBar("Abstracting 400bp column...");
-            abstractDNA(400);
+            AbstractDNA(400);
             visualAbstraction400 = visualizeDNA(abstractedNucleotides);
             
 
@@ -326,7 +331,8 @@ namespace Binomics_Labs_Software_Suite
                 visualAbstraction100.Width +                                                          
                 visualAbstraction200.Width +
                 visualAbstraction400.Width +
-                ratioImage.Width),
+                ratioImage.Width +
+                ladderImage.Width),
                 visualAbstraction1.Height);
 
             using (Graphics g = Graphics.FromImage(combinedVisualAbstraction))
@@ -338,13 +344,14 @@ namespace Binomics_Labs_Software_Suite
                 }
 
                 g.DrawImage(ratioImage, 0, 0);
-                g.DrawImage(visualAbstraction1, visualAbstraction1.Width + 5, 0);
-                g.DrawImage(visualAbstraction20, visualAbstraction1.Width * 2 + 10, 0);
-                g.DrawImage(visualAbstraction40, visualAbstraction1.Width * 3 + 15, 0);
-                g.DrawImage(visualAbstraction80, visualAbstraction1.Width * 4 + 20, 0);                //stitch all the abstraction images together in order of increasing filter size on one large image
-                g.DrawImage(visualAbstraction100, visualAbstraction1.Width * 5 + 25, 0);                //make a new image large enough to fit all 7 data columns + 5 pixels of spacer between each
-                g.DrawImage(visualAbstraction200, visualAbstraction1.Width * 6 + 30, 0);
-                g.DrawImage(visualAbstraction400, visualAbstraction1.Width * 7 + 35, 0);
+                g.DrawImage(ladderImage, visualAbstraction1.Width + 5, 0);
+                g.DrawImage(visualAbstraction1, visualAbstraction1.Width * 2 + 10, 0);
+                g.DrawImage(visualAbstraction20, visualAbstraction1.Width * 3 + 15, 0);
+                g.DrawImage(visualAbstraction40, visualAbstraction1.Width * 4 + 20, 0);                //stitch all the abstraction images together in order of increasing filter size on one large image
+                g.DrawImage(visualAbstraction80, visualAbstraction1.Width * 5 + 25, 0);                //make a new image large enough to fit all 7 data columns + 5 pixels of spacer between each
+                g.DrawImage(visualAbstraction100, visualAbstraction1.Width * 6 + 30, 0);
+                g.DrawImage(visualAbstraction200, visualAbstraction1.Width * 7 + 35, 0);
+                g.DrawImage(visualAbstraction400, visualAbstraction1.Width * 8 + 40, 0);
             }
 
             
@@ -356,6 +363,7 @@ namespace Binomics_Labs_Software_Suite
             visualAbstraction200.Dispose();
             visualAbstraction400.Dispose();
             ratioImage.Dispose();
+            ladderImage.Dispose();
             return combinedVisualAbstraction;
         }
 
