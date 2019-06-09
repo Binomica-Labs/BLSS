@@ -63,6 +63,18 @@ namespace Binomics_Labs_Software_Suite
         public List<String> batchAbstractorFiles = new List<string>();
         public Bitmap completedVisualization;
 
+        //Ratio Image Stuff
+        public int nucleotideCountA;
+        public int nucleotideCountT;
+        public int nucleotideCountC;
+        public int nucleotideCountG;
+        public double percentA;
+        public double percentT;
+        public double percentC;
+        public double percentG;
+        public int nucleotideTotal;
+        public int dnaImageSize;
+        public Image ratioImage;
 
 
         public static IEnumerable<string> ChunksUpto(string str, int maxChunkSize)
@@ -86,7 +98,14 @@ namespace Binomics_Labs_Software_Suite
 
             else
             {
-                entropyImageHeight = loadedDNALength / 200;
+                entropyImageHeight = (loadedDNALength + (200 - (loadedDNALength % 200)))/ 200;
+                int nucleotideRemainder = 200 - (loadedDNALength % 200);
+                List<char> tempNucleotides = new List<char>(input);
+                for (int i = 0; i <= nucleotideRemainder; i++)
+                {
+                    tempNucleotides.Add('X');
+                }
+                input = tempNucleotides.ToArray<char>();
             }
 
             visualizedDNA = new Bitmap(200, entropyImageHeight);
@@ -121,6 +140,11 @@ namespace Binomics_Labs_Software_Suite
                             visualizedDNA.SetPixel(x, y, colorC);
                             colorPosition++;
                         }
+                        else if (input[colorPosition] == 'X')
+                        {
+                            visualizedDNA.SetPixel(x, y, Color.Magenta);
+                            colorPosition++;
+                        }
                     }
                 }
             }
@@ -149,6 +173,12 @@ namespace Binomics_Labs_Software_Suite
                     else if (input[colorPosition] == 'C')
                     {
                         visualizedDNA.SetPixel(i, 0, colorC);
+                        colorPosition++;
+                    }
+
+                    else if (input[colorPosition] == 'X')
+                    {
+                        visualizedDNA.SetPixel(i, 0, Color.Magenta);
                         colorPosition++;
                     }
                 }
@@ -285,6 +315,7 @@ namespace Binomics_Labs_Software_Suite
             UpdateStatusBar("Abstracting 400bp column...");
             abstractDNA(400);
             visualAbstraction400 = visualizeDNA(abstractedNucleotides);
+            ratioImage = RatioImage();
 
             Bitmap combinedVisualAbstraction = new Bitmap((visualAbstraction1.Width +
                 visualAbstraction20.Width +
@@ -292,7 +323,8 @@ namespace Binomics_Labs_Software_Suite
                 visualAbstraction80.Width +
                 visualAbstraction100.Width +                                                          
                 visualAbstraction200.Width +
-                visualAbstraction400.Width),
+                visualAbstraction400.Width +
+                ratioImage.Width),
                 visualAbstraction1.Height);
 
             using (Graphics g = Graphics.FromImage(combinedVisualAbstraction))
@@ -303,13 +335,14 @@ namespace Binomics_Labs_Software_Suite
                     g.FillRectangle(brush, 0, 0, combinedVisualAbstraction.Width, combinedVisualAbstraction.Height);
                 }
 
-                g.DrawImage(visualAbstraction1, 0, 0);
-                g.DrawImage(visualAbstraction20, visualAbstraction1.Width + 5, 0);
-                g.DrawImage(visualAbstraction40, visualAbstraction1.Width * 2 + 10, 0);
-                g.DrawImage(visualAbstraction80, visualAbstraction1.Width * 3 + 15, 0);
-                g.DrawImage(visualAbstraction100, visualAbstraction1.Width * 4 + 20, 0);                //stitch all the abstraction images together in order of increasing filter size on one large image
-                g.DrawImage(visualAbstraction200, visualAbstraction1.Width * 5 + 25, 0);                //make a new image large enough to fit all 7 data columns + 5 pixels of spacer between each
-                g.DrawImage(visualAbstraction400, visualAbstraction1.Width * 6 + 30, 0);
+                g.DrawImage(ratioImage, 0, 0);
+                g.DrawImage(visualAbstraction1, visualAbstraction1.Width + 5, 0);
+                g.DrawImage(visualAbstraction20, visualAbstraction1.Width * 2 + 10, 0);
+                g.DrawImage(visualAbstraction40, visualAbstraction1.Width * 3 + 15, 0);
+                g.DrawImage(visualAbstraction80, visualAbstraction1.Width * 4 + 20, 0);                //stitch all the abstraction images together in order of increasing filter size on one large image
+                g.DrawImage(visualAbstraction100, visualAbstraction1.Width * 5 + 25, 0);                //make a new image large enough to fit all 7 data columns + 5 pixels of spacer between each
+                g.DrawImage(visualAbstraction200, visualAbstraction1.Width * 6 + 30, 0);
+                g.DrawImage(visualAbstraction400, visualAbstraction1.Width * 7 + 35, 0);
             }
 
             
@@ -320,6 +353,7 @@ namespace Binomics_Labs_Software_Suite
             visualAbstraction100.Dispose();
             visualAbstraction200.Dispose();
             visualAbstraction400.Dispose();
+            ratioImage.Dispose();
             return combinedVisualAbstraction;
         }
 
@@ -466,7 +500,7 @@ namespace Binomics_Labs_Software_Suite
                 if (inputData.Length > 1000000)
 
                 {
-                    loadedDNA = inputData.Substring(0, 1000000); //take only the first million basepairs for time's sake. Will move to full size once process is faster
+                    loadedDNA = inputData;//.Substring(0, 1000000); //take only the first million basepairs for time's sake. Will move to full size once process is faster
                 }
 
                 else
@@ -529,7 +563,7 @@ namespace Binomics_Labs_Software_Suite
             if (inputData.Length > 1000000)
 
             {
-                loadedDNA = inputData.Substring(0, 1000000); //take only the first million basepairs for time's sake. Will move to full size once process is faster
+                    loadedDNA = inputData;//.Substring(0, 1000000); //take only the first million basepairs for time's sake. Will move to full size once process is faster
             }
 
             else
@@ -624,6 +658,35 @@ namespace Binomics_Labs_Software_Suite
                 }
             }
             
+        }
+
+
+        public Image RatioImage()
+        {
+            dnaImageSize = (loadedDNALength + (200 - (loadedDNALength % 200))) / 200;
+            //Bitmap ratioImage = new Bitmap(200, dnaImageSize); //logic to make the image height rounded up to the nearest 200
+
+            nucleotideCountA = loadedDNA.Count(x => x == 'A');
+            nucleotideCountT = loadedDNA.Count(x => x == 'T');      //count how many of each letter there are in the loadedDNA of dna
+            nucleotideCountC = loadedDNA.Count(x => x == 'C');
+            nucleotideCountG = loadedDNA.Count(x => x == 'G');
+            nucleotideTotal = nucleotideCountA + nucleotideCountC + nucleotideCountT + nucleotideCountG;
+
+            percentA = nucleotideCountA / nucleotideTotal;
+            percentT = nucleotideCountT / nucleotideTotal;
+            percentC = nucleotideCountC / nucleotideTotal;
+            percentG = nucleotideCountG / nucleotideTotal;
+
+            char[] ratioNucleotideSequence = (new string('A', nucleotideCountA) +
+                                             new string('T', nucleotideCountT) +
+                                             new string('G', nucleotideCountG) +
+                                             new string('C', nucleotideCountC)).ToCharArray();
+
+            Image ratioImage = visualizeDNA(ratioNucleotideSequence);
+            //map ratio as color blocks the size of whole genome, pls 
+
+
+            return ratioImage;
         }
 
 
