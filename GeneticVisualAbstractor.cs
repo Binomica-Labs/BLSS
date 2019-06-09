@@ -90,7 +90,7 @@ namespace Binomics_Labs_Software_Suite
 
         public Image visualizeDNA(char[] input)
         {
-            pickNucleotideColor();
+            PickNucleotideColor();
 
             if (loadedDNALength / 200 < 1)
             {                                           //logic to handle when input DNA length is less than a full row across the data image column
@@ -143,7 +143,7 @@ namespace Binomics_Labs_Software_Suite
                         }
                         else if (input[colorPosition] == 'X')
                         {
-                            visualizedDNA.SetPixel(x, y, Color.Magenta);
+                            visualizedDNA.SetPixel(x, y, Color.Magenta);        //X denotes padding on last row of image, to make divisible cleanly by width (200bp)
                             colorPosition++;
                         }
                     }
@@ -191,7 +191,7 @@ namespace Binomics_Labs_Software_Suite
 
 
 
-        public void pickNucleotideColor()
+        public void PickNucleotideColor()
         {
             try
             {
@@ -259,36 +259,36 @@ namespace Binomics_Labs_Software_Suite
 
         public Image GenerateLadderDNA()       //function for adding a scale bar or ladder to the visualizations so one can pinpoint the region of interest visually and genomically
         {
+
             ladderLength = entropyImageHeight;
             int ladderRung = ladderLength / 10;     //scale the ladder to the input DNA length
             rungArray = new string[ladderLength];
 
-            rungArray[0] = String.Join("", new string('G', 150), new string('T', 50));
-            rungArray[1] = String.Join("", new string('G', 150), new string('T', 50));     //alternate between yellow and black pixels to make the rungs of the scale ladder
-            rungArray[2] = String.Join("", new string('G', 150), new string('T', 50));
 
-            for (int y = 0; y < ladderLength; y++)
+            rungArray[0] = String.Join("", new string('G', 50), new string('T', 150));      //add a long rung at the very first row
+
+            for (int y = 1; y < ladderLength; y++)
             {
-                rungArray[y] = String.Join("", new string('G', 195), new string('T', 5));
+                rungArray[y] = String.Join("", new string('G', 199), new string('T', 1));
             }
 
-            for (int y = (10000 / 400); y < ladderLength; y += (10000 / 400))
+
+
+            for (int y = ladderRung / 10; y < ladderLength; y += ladderRung / 10)
             {
-                //rungArray[y - 1] = String.Join("", new string('G', 150), new string('T', 50));
                 rungArray[y] = String.Join("", new string('G', 150), new string('T', 50));
-                //rungArray[y + 1] = String.Join("", new string('G', 150), new string('T', 50));
             }
 
-            for (int y = (ladderRung); y < ladderLength; y += ladderRung)
+
+
+            for (int y = ladderRung; y < ladderLength; y += ladderRung)
             {
-                //rungArray[y - 1] = String.Join("", new string('G', 200));
-                rungArray[y] = String.Join("", new string('G', 200));
-                //rungArray[y + 1] = String.Join("", new string('G', 200));
+                rungArray[y] = String.Join("", new string('G', 100), new string('T', 100));
             }
 
-            rungArray[ladderLength - 3] = String.Join("", new string('T', 200));
-            rungArray[ladderLength - 2] = String.Join("", new string('T', 200));
-            rungArray[ladderLength - 1] = String.Join("", new string('T', 200));
+            rungArray[ladderLength - 1] = String.Join("", new string('G', 50), new string('T', 150));       //add a long rung on the last row to bookend the ladder
+
+
             char[] ladderNucleotides = String.Join("", rungArray).ToCharArray();
             Image ladderImage = visualizeDNA(ladderNucleotides);
             return ladderImage;
@@ -343,15 +343,16 @@ namespace Binomics_Labs_Software_Suite
                     g.FillRectangle(brush, 0, 0, combinedVisualAbstraction.Width, combinedVisualAbstraction.Height);
                 }
 
-                g.DrawImage(ratioImage, 0, 0);
+               
                 g.DrawImage(ladderImage, visualAbstraction1.Width + 5, 0);
-                g.DrawImage(visualAbstraction1, visualAbstraction1.Width * 2 + 10, 0);
-                g.DrawImage(visualAbstraction20, visualAbstraction1.Width * 3 + 15, 0);
-                g.DrawImage(visualAbstraction40, visualAbstraction1.Width * 4 + 20, 0);                //stitch all the abstraction images together in order of increasing filter size on one large image
-                g.DrawImage(visualAbstraction80, visualAbstraction1.Width * 5 + 25, 0);                //make a new image large enough to fit all 7 data columns + 5 pixels of spacer between each
-                g.DrawImage(visualAbstraction100, visualAbstraction1.Width * 6 + 30, 0);
-                g.DrawImage(visualAbstraction200, visualAbstraction1.Width * 7 + 35, 0);
-                g.DrawImage(visualAbstraction400, visualAbstraction1.Width * 8 + 40, 0);
+                g.DrawImage(visualAbstraction1, visualAbstraction1.Width * 2 + 6, 0);
+                g.DrawImage(visualAbstraction20, visualAbstraction1.Width * 3 + 11, 0);
+                g.DrawImage(visualAbstraction40, visualAbstraction1.Width * 4 + 16, 0);                //stitch all the abstraction images together in order of increasing filter size on one large image
+                g.DrawImage(visualAbstraction80, visualAbstraction1.Width * 5 + 21, 0);                //make a new image large enough to fit all 7 data columns + 5 pixels of spacer between each
+                g.DrawImage(visualAbstraction100, visualAbstraction1.Width * 6 + 26, 0);                //ladder image is the only image touching the actual data columns
+                g.DrawImage(visualAbstraction200, visualAbstraction1.Width * 7 + 31, 0);
+                g.DrawImage(visualAbstraction400, visualAbstraction1.Width * 8 + 36, 0);
+                g.DrawImage(ratioImage, 100, 0);
             }
 
             
@@ -671,10 +672,10 @@ namespace Binomics_Labs_Software_Suite
         }
 
 
+
         public Image RatioImage()
         {
-            dnaImageSize = (loadedDNALength + (200 - (loadedDNALength % 200))) / 200;
-            //Bitmap ratioImage = new Bitmap(200, dnaImageSize); //logic to make the image height rounded up to the nearest 200
+            dnaImageSize = (loadedDNALength + (200 - (loadedDNALength % 200))) / 200;           //logic to make the image height rounded up to the nearest 200
 
             nucleotideCountA = loadedDNA.Count(x => x == 'A');
             nucleotideCountT = loadedDNA.Count(x => x == 'T');      //count how many of each letter there are in the loadedDNA of dna
@@ -693,8 +694,6 @@ namespace Binomics_Labs_Software_Suite
                                              new string('C', nucleotideCountC)).ToCharArray();
 
             Image ratioImage = visualizeDNA(ratioNucleotideSequence);
-            //map ratio as color blocks the size of whole genome, pls 
-
 
             return ratioImage;
         }
