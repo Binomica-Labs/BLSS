@@ -295,6 +295,8 @@ namespace Binomics_Labs_Software_Suite
 
         public Bitmap MultiVisualize()
         {
+            UpdateStatusBar("Calculating nucleotide ratios...");
+            ratioImage = RatioImage();
             UpdateStatusBar("Abstracting pixel perfect column...");
             visualAbstraction1 = visualizeDNA(loadedNucleotides);
             UpdateStatusBar("Abstracting 20bp column...");
@@ -315,7 +317,7 @@ namespace Binomics_Labs_Software_Suite
             UpdateStatusBar("Abstracting 400bp column...");
             abstractDNA(400);
             visualAbstraction400 = visualizeDNA(abstractedNucleotides);
-            ratioImage = RatioImage();
+            
 
             Bitmap combinedVisualAbstraction = new Bitmap((visualAbstraction1.Width +
                 visualAbstraction20.Width +
