@@ -1123,7 +1123,7 @@ namespace Binomics_Labs_Software_Suite
 
         private void txtDNA_Enter(object sender, EventArgs e)
         {
-            txtDNA.Text = "";
+            //txtDNA.Text = "";
         }
 
 

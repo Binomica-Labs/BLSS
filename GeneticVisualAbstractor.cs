@@ -259,7 +259,7 @@ namespace Binomics_Labs_Software_Suite
 
         public Image GenerateLadderDNA()       //function for adding a scale bar or ladder to the visualizations so one can pinpoint the region of interest visually and genomically
         {
-
+            
             ladderLength = entropyImageHeight;
             int ladderRung = ladderLength / 10;     //scale the ladder to the input DNA length
             rungArray = new string[ladderLength];
@@ -300,8 +300,12 @@ namespace Binomics_Labs_Software_Suite
         {
             UpdateStatusBar("Calculating nucleotide ratios...");
             ratioImage = RatioImage();
-            UpdateStatusBar("Calculating ladder size...");
-            ladderImage = GenerateLadderDNA();
+            if (loadedDNALength > 50000)
+            {
+                UpdateStatusBar("Calculating ladder size...");
+                ladderImage = GenerateLadderDNA();
+            }
+        
             UpdateStatusBar("Abstracting pixel perfect column...");
             visualAbstraction1 = visualizeDNA(loadedNucleotides);
             UpdateStatusBar("Abstracting 20bp column...");
@@ -332,7 +336,7 @@ namespace Binomics_Labs_Software_Suite
                 visualAbstraction200.Width +
                 visualAbstraction400.Width +
                 ratioImage.Width +
-                ladderImage.Width),
+                200),
                 visualAbstraction1.Height);
 
             using (Graphics g = Graphics.FromImage(combinedVisualAbstraction))
@@ -343,8 +347,10 @@ namespace Binomics_Labs_Software_Suite
                     g.FillRectangle(brush, 0, 0, combinedVisualAbstraction.Width, combinedVisualAbstraction.Height);
                 }
 
-               
-                g.DrawImage(ladderImage, visualAbstraction1.Width + 5, 0);
+                if (ladderImage != null)
+                {
+                    g.DrawImage(ladderImage, visualAbstraction1.Width + 5, 0);
+                }
                 g.DrawImage(visualAbstraction1, visualAbstraction1.Width * 2 + 6, 0);
                 g.DrawImage(visualAbstraction20, visualAbstraction1.Width * 3 + 11, 0);
                 g.DrawImage(visualAbstraction40, visualAbstraction1.Width * 4 + 16, 0);                //stitch all the abstraction images together in order of increasing filter size on one large image
@@ -364,7 +370,10 @@ namespace Binomics_Labs_Software_Suite
             visualAbstraction200.Dispose();
             visualAbstraction400.Dispose();
             ratioImage.Dispose();
-            ladderImage.Dispose();
+            if (ladderImage != null)
+            {
+                ladderImage.Dispose();
+            }
             return combinedVisualAbstraction;
         }
 
